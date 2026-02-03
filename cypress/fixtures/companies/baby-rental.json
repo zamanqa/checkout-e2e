@@ -1,0 +1,12 @@
+{
+  "company_id": "baby-rental",
+  "name": "Baby Rental Co.",
+  "checkout_url": "https://baby-rental.circuly.io/checkout",
+  "currency": "EUR",
+  "country": "DE",
+  "payment_providers": ["stripe"],
+  "tax_inclusive": true,
+  "vat_rate": 19,
+  "shipping_countries": ["DE", "AT", "CH"],
+  "minimum_term_months": 1
+}

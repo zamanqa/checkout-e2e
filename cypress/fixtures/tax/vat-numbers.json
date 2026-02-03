@@ -1,0 +1,12 @@
+{
+  "valid": [
+    { "vat_number": "DE123456789", "country": "DE", "company": "Test GmbH" },
+    { "vat_number": "NL123456789B01", "country": "NL", "company": "Test B.V." },
+    { "vat_number": "FR12345678901", "country": "FR", "company": "Test SARL" }
+  ],
+  "invalid": [
+    { "vat_number": "DE000000000", "country": "DE", "reason": "invalid_format" },
+    { "vat_number": "XX123456789", "country": "XX", "reason": "invalid_country" },
+    { "vat_number": "", "country": "DE", "reason": "empty_value" }
+  ]
+}

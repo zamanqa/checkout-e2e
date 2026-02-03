@@ -1,0 +1,15 @@
+{
+  "product_id": "prod_ebike_01",
+  "name": "Urban E-Bike",
+  "sku": "EBK-URB-001",
+  "category": "e-bikes",
+  "monthly_price": 89.00,
+  "setup_fee": 29.00,
+  "deposit": 150.00,
+  "currency": "EUR",
+  "availability": "in_stock",
+  "rental_type": "subscription",
+  "billing_interval": "monthly",
+  "minimum_term_months": 3,
+  "cancellation_notice_days": 30
+}

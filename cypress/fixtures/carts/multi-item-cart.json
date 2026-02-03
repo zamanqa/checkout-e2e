@@ -1,0 +1,29 @@
+{
+  "cart_id": "cart_multi_001",
+  "items": [
+    {
+      "product_id": "prod_stroller_01",
+      "product_name": "Premium Stroller",
+      "quantity": 1,
+      "monthly_price": 49.99,
+      "currency": "EUR"
+    },
+    {
+      "product_id": "prod_carseat_01",
+      "product_name": "Infant Car Seat",
+      "quantity": 1,
+      "monthly_price": 29.99,
+      "currency": "EUR"
+    },
+    {
+      "product_id": "prod_highchair_01",
+      "product_name": "Adjustable High Chair",
+      "quantity": 1,
+      "monthly_price": 19.99,
+      "currency": "EUR"
+    }
+  ],
+  "subtotal": 99.97,
+  "total": 99.97,
+  "currency": "EUR"
+}

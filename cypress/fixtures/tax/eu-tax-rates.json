@@ -1,0 +1,9 @@
+{
+  "DE": { "country": "Germany", "standard_rate": 19, "reduced_rate": 7 },
+  "FR": { "country": "France", "standard_rate": 20, "reduced_rate": 5.5 },
+  "ES": { "country": "Spain", "standard_rate": 21, "reduced_rate": 10 },
+  "NL": { "country": "Netherlands", "standard_rate": 21, "reduced_rate": 9 },
+  "IT": { "country": "Italy", "standard_rate": 22, "reduced_rate": 10 },
+  "AT": { "country": "Austria", "standard_rate": 20, "reduced_rate": 10 },
+  "BE": { "country": "Belgium", "standard_rate": 21, "reduced_rate": 6 }
+}

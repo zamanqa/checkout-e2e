@@ -1,0 +1,22 @@
+{
+  "cart_id": "cart_voucher_001",
+  "items": [
+    {
+      "product_id": "prod_stroller_01",
+      "product_name": "Premium Stroller",
+      "quantity": 1,
+      "monthly_price": 49.99,
+      "currency": "EUR"
+    }
+  ],
+  "voucher": {
+    "code": "TEST10",
+    "type": "percentage",
+    "value": 10,
+    "discount_amount": 5.00
+  },
+  "subtotal": 49.99,
+  "discount": 5.00,
+  "total": 44.99,
+  "currency": "EUR"
+}

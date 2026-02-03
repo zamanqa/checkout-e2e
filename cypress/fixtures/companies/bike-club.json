@@ -1,0 +1,12 @@
+{
+  "company_id": "bike-club",
+  "name": "Bike Club",
+  "checkout_url": "https://bike-club.circuly.io/checkout",
+  "currency": "GBP",
+  "country": "GB",
+  "payment_providers": ["stripe", "paypal"],
+  "tax_inclusive": true,
+  "vat_rate": 20,
+  "shipping_countries": ["GB"],
+  "minimum_term_months": 6
+}

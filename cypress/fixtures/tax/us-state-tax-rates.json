@@ -1,0 +1,7 @@
+{
+  "CA": { "state": "California", "state_rate": 7.25, "max_combined_rate": 10.25 },
+  "NY": { "state": "New York", "state_rate": 4.0, "max_combined_rate": 8.875 },
+  "TX": { "state": "Texas", "state_rate": 6.25, "max_combined_rate": 8.25 },
+  "FL": { "state": "Florida", "state_rate": 6.0, "max_combined_rate": 7.5 },
+  "WA": { "state": "Washington", "state_rate": 6.5, "max_combined_rate": 10.25 }
+}
