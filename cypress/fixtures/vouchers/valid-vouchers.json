@@ -1,0 +1,9 @@
+{
+  "percentage_10": { "code": "TEST10", "type": "percentage", "value": 10, "description": "10% off" },
+  "percentage_20": { "code": "TEST20", "type": "percentage", "value": 20, "description": "20% off" },
+  "fixed_5": { "code": "FIXED5", "type": "fixed", "value": 5.00, "currency": "EUR", "description": "5 EUR off" },
+  "fixed_15": { "code": "FIXED15", "type": "fixed", "value": 15.00, "currency": "EUR", "description": "15 EUR off" },
+  "free_month": { "code": "FREEMONTH", "type": "free_period", "value": 1, "description": "First month free" },
+  "expired": { "code": "EXPIRED2024", "type": "percentage", "value": 25, "description": "Expired voucher" },
+  "invalid": { "code": "INVALIDCODE", "type": "none", "value": 0, "description": "Non-existent voucher" }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "evt_test_001",
+  "type": "payment_intent.succeeded",
+  "data": {
+    "object": {
+      "id": "pi_test_001",
+      "amount": 4999,
+      "currency": "eur",
+      "status": "succeeded",
+      "payment_method": "pm_card_visa",
+      "metadata": {
+        "cart_id": "cart_single_001",
+        "company_id": "baby-rental"
+      }
+    }
+  },
+  "livemode": false,
+  "created": 1700000000
+}

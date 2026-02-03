@@ -1,0 +1,16 @@
+{
+  "product_id": "prod_bundle_01",
+  "name": "Baby Starter Bundle",
+  "sku": "BND-BABY-001",
+  "category": "bundles",
+  "monthly_price": 79.99,
+  "deposit": 149.00,
+  "currency": "EUR",
+  "rental_type": "bundle",
+  "included_items": [
+    { "product_id": "prod_stroller_01", "name": "Premium Stroller" },
+    { "product_id": "prod_carseat_01", "name": "Infant Car Seat" },
+    { "product_id": "prod_highchair_01", "name": "Adjustable High Chair" }
+  ],
+  "minimum_term_months": 3
+}

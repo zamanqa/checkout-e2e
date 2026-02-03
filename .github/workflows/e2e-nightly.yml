@@ -1,0 +1,15 @@
+name: Nightly Full Regression
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  full-regression:
+    uses: ./.github/workflows/e2e-tests.yml
+    with:
+      suite: all
+      browser: chrome
+      tags: ''
+    secrets: inherit
