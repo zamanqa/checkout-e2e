@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nReset to default Cypress project structure\n\n- Removed all custom TypeScript files, page objects, and commands\n- Removed CI/CD workflows and linting config\n- Created fresh default Cypress structure with JavaScript\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

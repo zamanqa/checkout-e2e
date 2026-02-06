@@ -1,0 +1,20 @@
+{
+  "firstName": "Test",
+  "lastName": "User",
+  "email": "test@example.com",
+  "phoneNumber": "+4917672024720",
+  "company_name": "Test Company",
+  "vatNumber": "12345",
+  "streetName": "Hansaallee",
+  "streetNo": 139,
+  "postCode": "60320",
+  "city": "Frankfurt am Main",
+  "country": "Germany",
+  "note": "This is a test note",
+  "cardNumber": "4242424242424242",
+  "adyenCardNumber": "4917 6100 0000 0000",
+  "braintreeCardNumber": "4111111111111111",
+  "cardName": "Test User",
+  "expireDate": "0330",
+  "cvc": "737"
+}
