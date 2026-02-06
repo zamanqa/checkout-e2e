@@ -1,8 +1,0 @@
-{
-  "valid_visa": { "number": "4242424242424242", "exp_month": "12", "exp_year": "2028", "cvc": "123" },
-  "valid_mastercard": { "number": "5555555555554444", "exp_month": "12", "exp_year": "2028", "cvc": "456" },
-  "declined": { "number": "4000000000000002", "exp_month": "12", "exp_year": "2028", "cvc": "789" },
-  "insufficient_funds": { "number": "4000000000009995", "exp_month": "12", "exp_year": "2028", "cvc": "321" },
-  "requires_authentication": { "number": "4000002500003155", "exp_month": "12", "exp_year": "2028", "cvc": "654" },
-  "expired_card": { "number": "4000000000000069", "exp_month": "12", "exp_year": "2028", "cvc": "987" }
-}

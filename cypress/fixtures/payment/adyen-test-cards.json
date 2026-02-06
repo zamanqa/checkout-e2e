@@ -1,8 +1,0 @@
-{
-  "valid_visa": { "number": "4111111111111111", "exp_month": "03", "exp_year": "2030", "cvc": "737" },
-  "valid_mastercard": { "number": "5500000000000004", "exp_month": "03", "exp_year": "2030", "cvc": "737" },
-  "refused": { "number": "4000000000000002", "exp_month": "03", "exp_year": "2030", "cvc": "737" },
-  "3ds2_required": { "number": "4212345678901237", "exp_month": "03", "exp_year": "2030", "cvc": "737" },
-  "valid_sepa": { "iban": "DE89370400440532013000", "owner_name": "Test Shopper" },
-  "valid_ideal": { "issuer": "1121", "issuer_name": "Test Issuer" }
-}
