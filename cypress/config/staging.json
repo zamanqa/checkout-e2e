@@ -1,7 +1,0 @@
-{
-  "baseUrl": "https://staging-checkout.circuly.io",
-  "env": {
-    "ENVIRONMENT": "staging",
-    "API_BASE_URL": "https://staging-api.circuly.io"
-  }
-}
