@@ -1,13 +1,23 @@
 {
   "name": "checkout-e2e",
   "version": "1.0.0",
-  "description": "Cypress E2E tests",
+  "description": "Cypress E2E tests for Circuly Checkout",
   "private": true,
   "scripts": {
     "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "cy:run:chrome": "cypress run --browser chrome",
+    "cy:run:headed": "cypress run --headed",
+    "test:shopify": "cypress run --spec 'cypress/e2e/checkout/shopify/**'",
+    "test:saleor": "cypress run --spec 'cypress/e2e/checkout/saleor/**'",
+    "test:woocommerce": "cypress run --spec 'cypress/e2e/checkout/woocommerce/**'",
+    "test:shopware5": "cypress run --spec 'cypress/e2e/checkout/shopware5/**'",
+    "test:all": "cypress run --spec 'cypress/e2e/**/*.cy.js'"
   },
   "devDependencies": {
     "cypress": "^13.17.0"
+  },
+  "dependencies": {
+    "pg": "^8.11.5"
   }
 }
