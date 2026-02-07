@@ -15,6 +15,48 @@ class MollieComponent {
     cy.log('✓ Selected Mollie Credit Card');
   }
 
+  // Selector - SEPA Direct Debit button
+  get sepaButton() {
+    return cy.get("button[data-test-id='mollie-payment-method-sepa']");
+  }
+
+  // Action
+  selectSepa() {
+    this.sepaButton.click();
+    cy.log('✓ Selected Mollie SEPA Direct Debit');
+  }
+
+  // ==================== SEPA FORM ====================
+
+  // Selector - IBAN input
+  get sepaIbanInput() {
+    return cy.get("#input-v-0-0-0-5");
+  }
+
+  // Action - Enter IBAN
+  enterSepaIban(iban) {
+    this.sepaIbanInput.clear().type(iban);
+    cy.log(`✓ Entered SEPA IBAN: ${iban}`);
+  }
+
+  // Selector - SEPA Select/Submit button
+  get sepaSubmitButton() {
+    return cy.get("button[data-test-id='mollie-sepa-submit']");
+  }
+
+  // Action - Click SEPA Select button
+  clickSepaSelect() {
+    this.sepaSubmitButton.click();
+    cy.log('✓ Clicked SEPA Select button');
+  }
+
+  // Action - Fill SEPA details and select
+  fillSepaAndSelect(iban) {
+    this.enterSepaIban(iban);
+    cy.wait(1000);
+    //this.clickSepaSelect();
+  }
+
   // ==================== CARD FORM IFRAMES ====================
 
   // Selector
@@ -84,8 +126,34 @@ class MollieComponent {
   // Action
   submit() {
     this.submitButton.click();
-    cy.wait(30000);
+    cy.wait(10000);
     cy.log('✓ Submitted Mollie payment');
+  }
+
+  // ==================== MOLLIE TEST MODE PAGE ====================
+
+  // Selector - Paid radio button
+  get paidRadioButton() {
+    return cy.get('input[type="radio"][value="paid"]');
+  }
+
+  // Selector - Continue button
+  get continueButton() {
+    return cy.get('.button.form__button');
+  }
+
+  // Action - Select Paid status and click Continue
+  selectPaidAndContinue() {
+    // Select "Paid" radio button
+    this.paidRadioButton.click();
+    cy.log('✓ Selected Paid status');
+
+    // Click Continue button
+    this.continueButton.click();
+    cy.log('✓ Clicked Continue on Mollie test page');
+
+    // Wait for redirect back to checkout
+    cy.wait(30000);
   }
 }
 

@@ -1,20 +1,116 @@
 {
-  "firstName": "Test",
-  "lastName": "User",
-  "email": "test@example.com",
-  "phoneNumber": "+4917672024720",
-  "company_name": "Test Company",
-  "vatNumber": "12345",
-  "streetName": "Hansaallee",
-  "streetNo": 139,
-  "postCode": "60320",
-  "city": "Frankfurt am Main",
-  "country": "Germany",
-  "note": "This is a test note",
-  "cardNumber": "4242424242424242",
-  "adyenCardNumber": "4917 6100 0000 0000",
-  "braintreeCardNumber": "4111111111111111",
-  "cardName": "Test User",
-  "expireDate": "0330",
-  "cvc": "737"
+  "germany": {
+    "firstName": "Shahiduz",
+    "lastName": "Zaman",
+    "email": "automation_test1@gmail.com",
+    "phone": "4917656824720",
+    "company": "Circuly",
+    "vatNumber": "12345",
+    "dobYear": "1990",
+    "dobMonth": "May",
+    "dobDay": "7",
+    "street": "Hansaallee",
+    "streetNumber": "139",
+    "postalCode": "60320",
+    "city": "Frankfurt am Main",
+    "country": "Germany",
+    "notes": "This is a Test Note"
+  },
+  "usa": {
+    "firstName": "Shahiduz",
+    "lastName": "Zaman",
+    "email": "automation_test1@gmail.com",
+    "phone": "+14844578325",
+    "company": "Circuly USA",
+    "vatNumber": "",
+    "dobYear": "1990",
+    "dobMonth": "May",
+    "dobDay": "7",
+    "street": "West 13th Street",
+    "streetNumber": "47",
+    "postalCode": "10011",
+    "city": "New York",
+    "country": "United States",
+    "notes": "This is a Test Note"
+  },
+  "spain": {
+    "firstName": "Shahiduz",
+    "lastName": "Zaman",
+    "email": "automation_test1@gmail.com",
+    "phone": "+34612345678",
+    "company": "Circuly Spain",
+    "vatNumber": "12345",
+    "dobYear": "1990",
+    "dobMonth": "May",
+    "dobDay": "7",
+    "street": "Av. Hermida",
+    "streetNumber": "47",
+    "postalCode": "15174",
+    "city": "Rutis",
+    "country": "Spain",
+    "notes": "This is a Test Note"
+  },
+  "uk": {
+    "firstName": "Shahiduz",
+    "lastName": "Zaman",
+    "email": "automation_test1@gmail.com",
+    "phone": "+447123456789",
+    "company": "Circuly UK",
+    "vatNumber": "12345",
+    "dobYear": "1990",
+    "dobMonth": "May",
+    "dobDay": "7",
+    "street": "High Street",
+    "streetNumber": "10",
+    "postalCode": "CW2 7HL",
+    "city": "Crewe",
+    "country": "United Kingdom",
+    "notes": "This is a Test Note"
+  },
+  "switzerland": {
+    "firstName": "Shahiduz",
+    "lastName": "Zaman",
+    "email": "automation_test1@gmail.com",
+    "phone": "+41791234567",
+    "company": "Circuly CH",
+    "vatNumber": "12345",
+    "dobYear": "1990",
+    "dobMonth": "May",
+    "dobDay": "7",
+    "street": "Bahnhofstrasse",
+    "streetNumber": "1",
+    "postalCode": "8001",
+    "city": "Zurich",
+    "country": "Switzerland",
+    "notes": "This is a Test Note"
+  },
+  "payment": {
+    "stripe": {
+      "cardNumber": "4242424242424242",
+      "cardName": "Zaman",
+      "expireDate": "0330",
+      "cvc": "737"
+    },
+    "sepa": {
+      "iban": "DE89370400440532013000"
+    },
+    "adyen": {
+      "cardNumber": "4917 6100 0000 0000",
+      "cardName": "Zaman",
+      "expireDate": "0330",
+      "cvc": "737"
+    },
+    "braintree": {
+      "cardNumber": "4111111111111111",
+      "cardName": "Zaman",
+      "expireDate": "0330",
+      "cvc": "737"
+    },
+    "mollie": {
+      "cardNumber": "4543474002249996",
+      "cardName": "Zaman",
+      "expireDate": "0330",
+      "cvc": "737"
+    }
+  }
 }
