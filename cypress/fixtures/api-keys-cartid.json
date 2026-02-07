@@ -1,0 +1,10 @@
+{
+  "shopifyStripe": {
+    "api_key": "dev_shopify_stripe",
+    "cart_id": "dev_shopify_stripe_do_not_use_e2e"
+  },
+  "saleorMollie": {
+    "api_key": "dev_saleor_mollie",
+    "cart_id": "dev_sailor_mollie_e2e"
+  }
+}

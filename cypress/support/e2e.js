@@ -2,6 +2,7 @@
 // Global configuration and behavior
 
 import './commands';
+import './helpers/db-helper';
 
 // Suppress uncaught exceptions from third-party scripts
 Cypress.on('uncaught:exception', () => {

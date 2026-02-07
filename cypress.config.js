@@ -16,7 +16,7 @@ module.exports = defineConfig({
     viewportWidth: 1280,
     viewportHeight: 720,
 
-    // Cross-origin support for payment iframes
+    // Cross-origin support for payment iframes and redirects
     chromeWebSecurity: false,
 
     // Retry strategy
@@ -33,7 +33,16 @@ module.exports = defineConfig({
 
     // Environment variables
     env: {
+      // Base URLs
       CHECKOUT_URL: 'https://circuly-checkout-development.herokuapp.com/en/',
+
+      // API Health Check URLs
+      CHECKOUT_API_URL: 'https://checkout-api-development-680576524870.europe-west3.run.app/v1/version',
+      HUB_API_URL: 'https://hub-api-development-680576524870.europe-west3.run.app/v1/version',
+
+      // Shopify Stripe Configuration
+      SHOPIFY_STRIPE_API_KEY: 'dev_shopify_stripe',
+      SHOPIFY_STRIPE_CART_ID: 'dev_shopify_stripe_do_not_use_e2e',
     },
 
     setupNodeEvents(on, config) {
@@ -42,18 +51,18 @@ module.exports = defineConfig({
         async queryDb(queryString) {
           const { Client } = require('pg');
           const pgConfig = {
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME || 'postgres',
-            port: process.env.DB_PORT || 5432,
+            user: 'ZdFFUsWiIuILvub',
+            password: 'rxoz32pYOeqYEAMVG263',
+            host: 'circuly-development-v12.csmudpdd3zlm.eu-central-1.rds.amazonaws.com',
+            database: 'postgres',
             ssl: false,
+            port: 5432,
           };
           const client = new Client(pgConfig);
           await client.connect();
-          const result = await client.query(queryString);
+          const res = await client.query(queryString);
           await client.end();
-          return result.rows;
+          return res.rows;
         },
       });
 

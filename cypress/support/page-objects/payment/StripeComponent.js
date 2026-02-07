@@ -17,16 +17,38 @@ class StripeComponent {
   // ==================== CARD PAYMENT ====================
 
   // Action - Fill card details (new Payment Element)
+  // First selects "Card" option, then fills card number, expiry, CVC
   fillCardDetails(cardNumber, expiry, cvc) {
+    // Wait for Stripe iframe to load
+    cy.wait(3000);
+
     this.paymentIframe
-      .should('have.length', 1)
+      .should('exist')
       .then(($iframe) => {
         const $body = $iframe.contents().find('body');
-        cy.wrap($body).find('[name="number"]').clear().type(cardNumber);
+
+        // Step 1: Click on "Card" payment method option (handles dynamic position)
+        cy.wrap($body).find('[data-testid="card"]').click({ force: true });
+        cy.log('✓ Selected Card payment method');
+        cy.wait(1000);
+
+        // Step 2: Fill card number
+        cy.wrap($body).find('input[name="number"]').clear().type(cardNumber);
+        cy.log('✓ Entered card number');
+
+        // Step 3: Fill expiry date
         cy.wrap($body).find('input[name="expiry"]').clear().type(expiry);
+        cy.log('✓ Entered expiry date');
+
+        // Step 4: Fill CVC
         cy.wrap($body).find('input[name="cvc"]').clear().type(cvc);
+        cy.log('✓ Entered CVC');
       });
-    cy.contains('Select').click();
+
+    // Click Select button to confirm payment method
+    cy.wait(2000);
+    cy.get("[data-test-id='next-step']").contains('Select').click();
+    cy.log('✓ Clicked Select button');
     cy.wait(5000);
     cy.log('✓ Filled Stripe card details');
   }
@@ -46,20 +68,61 @@ class StripeComponent {
     cy.log('✓ Filled Stripe card details (legacy)');
   }
 
+  // ==================== PAYPAL ====================
+
+  // Action - Select PayPal payment method
+  // Clicks on PayPal option, then clicks Select button
+  selectPayPal() {
+    // Wait for Stripe iframe to load
+    cy.wait(3000);
+
+    this.paymentIframe
+      .should('exist')
+      .then(($iframe) => {
+        const $body = $iframe.contents().find('body');
+
+        // Click on "PayPal" payment method option (handles dynamic position)
+        cy.wrap($body).find('[data-testid="paypal"]').click({ force: true });
+        cy.log('✓ Selected PayPal payment method');
+      });
+
+    // Click Select button to confirm payment method
+    cy.wait(2000);
+    cy.get("[data-test-id='next-step']").contains('Select').click();
+    cy.log('✓ Clicked Select button');
+    cy.wait(3000);
+    cy.log('✓ PayPal payment method selected');
+  }
+
   // ==================== SEPA DEBIT ====================
 
   // Action - Fill SEPA debit
+  // First selects "SEPA Debit" option, then fills IBAN
   fillSepaDebit(iban) {
+    // Wait for Stripe iframe to load
+    cy.wait(3000);
+
     this.paymentIframe
-      .should('have.length', 1)
+      .should('exist')
       .then(($iframe) => {
         const $body = $iframe.contents().find('body');
-        cy.wrap($body).find('[data-testid="sepa_debit"]').click();
+
+        // Step 1: Click on "SEPA Debit" payment method option (handles dynamic position)
+        cy.wrap($body).find('[data-testid="sepa_debit"]').click({ force: true });
+        cy.log('✓ Selected SEPA Debit payment method');
+        cy.wait(1000);
+
+        // Step 2: Fill IBAN
         cy.wrap($body).find('input[name="iban"]').clear().type(iban);
+        cy.log('✓ Entered IBAN');
       });
-    cy.contains('Select').click();
+
+    // Click Select button to confirm payment method
+    cy.wait(2000);
+    cy.get("[data-test-id='next-step']").contains('Select').click();
+    cy.log('✓ Clicked Select button');
     cy.wait(5000);
-    cy.log('✓ Filled SEPA debit details');
+    cy.log('✓ Filled SEPA Debit details');
   }
 
   // ==================== BACS DEBIT ====================
