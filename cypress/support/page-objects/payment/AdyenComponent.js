@@ -15,6 +15,49 @@ class AdyenComponent {
     cy.log('✓ Selected Adyen Credit Card');
   }
 
+  // Selector - SEPA Direct Debit button
+  get sepaButton() {
+    return cy.get("button[data-test-id='selection-btn-sepadirectdebit']");
+  }
+
+  // Action
+  selectSepa() {
+    this.sepaButton.click();
+    cy.log('✓ Selected Adyen SEPA Direct Debit');
+  }
+
+  // ==================== SEPA FORM ====================
+
+  // Selector - Holder Name input
+  get sepaHolderNameInput() {
+    return cy.get('input[name="ownerName"]');
+  }
+
+  // Selector - IBAN input
+  get sepaIbanInput() {
+    return cy.get('input[name="ibanNumber"]');
+  }
+
+  // Action - Enter Holder Name
+  fillSepaHolderName(name) {
+    this.sepaHolderNameInput.click().type(name);
+    cy.log(`✓ Entered SEPA Holder Name: ${name}`);
+  }
+
+  // Action - Enter IBAN
+  fillSepaIban(iban) {
+    this.sepaIbanInput.click().type(iban);
+    cy.log(`✓ Entered SEPA IBAN: ${iban}`);
+  }
+
+  // Action - Fill all SEPA details
+  fillSepaDetails(holderName, iban) {
+    this.fillSepaHolderName(holderName);
+    cy.wait(1000);
+    this.fillSepaIban(iban);
+    cy.log('✓ Filled Adyen SEPA details');
+  }
+
   // ==================== CARD FORM IFRAMES ====================
 
   // Selector
