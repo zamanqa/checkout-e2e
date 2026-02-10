@@ -30,7 +30,7 @@ class MollieComponent {
 
   // Selector - IBAN input
   get sepaIbanInput() {
-    return cy.get("#input-v-0-0-0-5");
+    return cy.get('#input-v-0-0-0-6');
   }
 
   // Action - Enter IBAN
@@ -55,6 +55,19 @@ class MollieComponent {
     this.enterSepaIban(iban);
     cy.wait(1000);
     //this.clickSepaSelect();
+  }
+
+  // ==================== INVOICE PAYMENT ====================
+
+  // Selector - Pay with invoice button
+  get invoiceButton() {
+    return cy.get("button[data-test-id='select-invoice']");
+  }
+
+  // Action - Select Pay with invoice
+  selectInvoice() {
+    this.invoiceButton.click();
+    cy.log('✓ Selected Pay with invoice');
   }
 
   // ==================== CARD FORM IFRAMES ====================
