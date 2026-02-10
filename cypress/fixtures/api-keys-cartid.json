@@ -6,5 +6,17 @@
   "saleorMollie": {
     "api_key": "dev_saleor_mollie",
     "cart_id": "dev_sailor_mollie_e2e"
+  },
+  "shopifyAdyen": {
+    "api_key": "dev_shopify_adyen",
+    "cart_id": "dev_shopify_adyen_do_not_use_e2e"
+  },
+  "shopware6Braintree": {
+    "api_key": "dev_shopware6_braintree",
+    "cart_id": "dev_shopware6_braintree_e2e"
+  },
+  "woocommerceMollie": {
+    "api_key": "dev_woocommerce_stripe",
+    "cart_id": "dev_woocommarce_stripe"
   }
 }

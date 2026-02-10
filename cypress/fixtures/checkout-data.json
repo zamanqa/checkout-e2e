@@ -98,7 +98,9 @@
       "cardNumber": "4917 6100 0000 0000",
       "cardName": "Zaman",
       "expireDate": "0330",
-      "cvc": "737"
+      "cvc": "737",
+      "sepaHolderName": "A. Schneider",
+      "sepaIban": "DE87 1234 5678 1234 5678 90"
     },
     "braintree": {
       "cardNumber": "4111111111111111",
