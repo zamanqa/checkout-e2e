@@ -30,7 +30,7 @@ class MollieComponent {
 
   // Selector - IBAN input
   get sepaIbanInput() {
-    return cy.get('#input-v-0-0-0-6');
+    return cy.contains('label', 'IBAN').invoke('attr', 'for').then((id) => cy.get(`#${id}`));
   }
 
   // Action - Enter IBAN
