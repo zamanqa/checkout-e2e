@@ -1,6 +1,7 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
+  projectId: 'r8v3uj',
   e2e: {
     baseUrl: 'https://circuly-checkout-development.herokuapp.com/en/',
     specPattern: 'cypress/e2e/**/*.cy.js',
