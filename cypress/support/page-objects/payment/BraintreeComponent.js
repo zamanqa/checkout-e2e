@@ -76,6 +76,39 @@ class BraintreeComponent {
     cy.log('✓ Filled Braintree card details');
   }
 
+  // ==================== SEPA ====================
+
+  // Selector - SEPA Direct Debit button
+  get sepaButton() {
+    return cy.get("button[data-test-id='braintree-payment-method-sepa']");
+  }
+
+  // Action - Select SEPA Direct Debit
+  selectSepa() {
+    this.sepaButton.click();
+    cy.log('✓ Selected Braintree SEPA Direct Debit');
+  }
+
+  // Selector - SEPA IBAN input
+  get sepaIbanInput() {
+    return cy.contains('label', 'IBAN').invoke('attr', 'for').then((id) => cy.get(`#${id}`));
+  }
+
+  // Action - Enter SEPA IBAN
+  enterSepaIban(iban) {
+    this.sepaIbanInput.clear().type(iban);
+    cy.log(`✓ Entered SEPA IBAN: ${iban}`);
+  }
+
+  // Action - Fill SEPA details
+  fillSepaDetails(iban) {
+    this.selectSepa();
+    cy.wait(2000);
+    this.enterSepaIban(iban);
+    cy.wait(1000);
+    cy.log('✓ Filled Braintree SEPA details');
+  }
+
   // ==================== SUBMIT ====================
 
   // Selector

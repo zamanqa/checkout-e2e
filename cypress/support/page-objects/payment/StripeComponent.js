@@ -154,6 +154,22 @@ class StripeComponent {
     });
     cy.log('✓ Confirmed BACS payment');
   }
+
+  // ==================== STRIPE TEST MODE PAGE ====================
+
+  // Selector - Authorize Test Payment button
+  get authorizeTestPaymentButton() {
+    return cy.get('[data-testid="authorize-test-payment-button"]', { timeout: 30000 });
+  }
+
+  // Action - Authorize test payment on Stripe's test page
+  authorizeTestPayment() {
+    this.authorizeTestPaymentButton
+      .should('be.visible')
+      .click();
+    cy.log('✓ Clicked Authorize Test Payment');
+    cy.wait(10000);
+  }
 }
 
 export default new StripeComponent();
