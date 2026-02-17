@@ -1,15 +1,16 @@
-// shopify-stripe-paypal.cy.js - Shopify + Stripe + PayPal Checkout Test
+// shopware6-braintree-sepa.cy.js - Shopware6 + Braintree + SEPA Checkout Test
 
 import CheckoutPage from '../../../support/page-objects/CheckoutPage';
-import StripeComponent from '../../../support/page-objects/payment/StripeComponent';
+import BraintreeComponent from '../../../support/page-objects/payment/BraintreeComponent';
 import ApiHealthCheck from '../../../support/helpers/api-health-check';
 import '../../../support/helpers/db-helper';
 import apiKeys from '../../../fixtures/api-keys-cartid.json';
 import checkoutData from '../../../fixtures/checkout-data.json';
 
-describe('Shopify + Stripe + PayPal Checkout', () => {
+describe('Shopware6 + Braintree + SEPA Checkout', () => {
   const apiHealthCheck = new ApiHealthCheck();
   const testData = checkoutData.germany;
+  const paymentData = checkoutData.payment.sepa;
 
   before(() => {
     // Run API health check before all tests
@@ -19,20 +20,20 @@ describe('Shopify + Stripe + PayPal Checkout', () => {
   beforeEach(() => {
     // Build URL from fixtures
     const checkoutUrl = Cypress.env('CHECKOUT_URL');
-    const apiKey = apiKeys.shopifyStripe.api_key;
-    const cartId = apiKeys.shopifyStripe.cart_id;
+    const apiKey = apiKeys.shopware6Braintree.api_key;
+    const cartId = apiKeys.shopware6Braintree.cart_id;
     const url = `${checkoutUrl}${apiKey}/${cartId}`;
 
     cy.visit(url);
     cy.wait(2000);
   });
 
-  it('Complete an Order for Shopify Stripe PayPal and Validate in CMS Database', function () {
-    cy.log('========== Shopify Stripe PayPal Checkout Test ==========');
+  it('Complete an Order for Shopware6 Braintree SEPA and Validate in CMS Database', function () {
+    cy.log('========== Shopware6 Braintree SEPA Checkout Test ==========');
 
     // Step 1: Verify page loaded
     cy.log('--- Step 1: Verify checkout page loaded ---');
-    cy.url().should('include', apiKeys.shopifyStripe.api_key);
+    cy.url().should('include', apiKeys.shopware6Braintree.api_key);
     cy.contains('Address & Payment').should('be.visible');
 
     // Step 2: Select delivery date (if available)
@@ -62,57 +63,39 @@ describe('Shopify + Stripe + PayPal Checkout', () => {
     CheckoutPage.enterPostalCode(testData.postalCode);
     CheckoutPage.enterCity(testData.city);
     CheckoutPage.selectCountry(testData.country);
-
-    cy.wait(5000);
+    cy.wait(2000);
 
     // Step 7: Enter notes (if available)
     cy.log('--- Step 7: Enter notes ---');
     CheckoutPage.enterNotes(testData.notes);
 
-    // Step 8: Click Continue to proceed to payment
+    // Step 8: Click Continue to proceed to Review & Confirm
     cy.log('--- Step 8: Click Continue ---');
     CheckoutPage.clickContinue();
+    cy.wait(5000);
 
-    // Step 9: Select PayPal payment method
-    cy.log('--- Step 9: Select PayPal payment method ---');
-    StripeComponent.selectPayPal();
-
-    cy.wait(3000);
+    // Step 9: Select SEPA payment and enter IBAN
+    cy.log('--- Step 9: Select SEPA and enter IBAN ---');
+    BraintreeComponent.fillSepaDetails(paymentData.iban);
+    cy.wait(2000);
 
     // Step 10: Check all required checkboxes (Terms & Conditions)
     cy.log('--- Step 10: Check all checkboxes ---');
     CheckoutPage.checkAllCheckboxes();
     cy.wait(2000);
 
-    // Step 11: Click Pay button to complete order
+    // Step 11: Click Pay button
     cy.log('--- Step 11: Click Pay button ---');
-    cy.get("[data-test-id='btn-pay']").click();
+    CheckoutPage.clickPay();
 
-    // Step 12: Wait for redirect to Stripe PayPal test payment page
-    cy.log('--- Step 12: Waiting for Stripe redirect ---');
-    cy.url({ timeout: 60000 }).should('include', 'stripe.com');
-
-    // Step 13: Authorize test payment on Stripe's cross-origin page
-    cy.log('--- Step 13: Authorize test payment ---');
-    cy.origin('https://stripe.com', () => {
-      // Wait for page to fully load
-      cy.wait(5000);
-
-      // Click on "Authorize Test Payment" button
-      cy.get('[data-testid="authorize-test-payment-button"]', { timeout: 30000 })
-        .should('be.visible')
-        .click();
-
-      cy.log('✓ Clicked Authorize Test Payment');
-    });
-
-    // Step 14: Wait for redirect back and verify order confirmation
-    cy.log('--- Step 14: Verify order confirmation ---');
+    // Step 12: Verify order confirmation and save order number
+    cy.log('--- Step 12: Verify order confirmation ---');
     cy.url({ timeout: 60000 }).should('include', 'confirmation');
     CheckoutPage.saveOrderNumber();
 
-    // Step 15: Validate order in CMS Database
-    cy.log('--- Step 15: Validate order in database ---');
+    // Step 13: Validate order in CMS Database
+    cy.log('--- Step 13: Validate order in database ---');
+    cy.wait(20000);
     cy.checkOrderExistsInDatabase();
 
     cy.log('========== Test Completed Successfully ==========');
