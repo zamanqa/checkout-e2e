@@ -107,6 +107,7 @@ describe('Shopify + Stripe + Card Checkout', () => {
 
     // Step 14: Validate order in CMS Database
     cy.log('--- Step 14: Validate order in database ---');
+    cy.wait (15000)
     cy.checkOrderExistsInDatabase();
 
 
