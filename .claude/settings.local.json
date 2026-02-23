@@ -11,7 +11,8 @@
       "Bash(git stash pop:*)",
       "Bash(git rm:*)",
       "mcp__f786dbb4-72d0-4574-a8a5-15329c09a2df__create_issue",
-      "mcp__f786dbb4-72d0-4574-a8a5-15329c09a2df__get_user"
+      "mcp__f786dbb4-72d0-4574-a8a5-15329c09a2df__get_user",
+      "Bash(git reset:*)"
     ]
   }
 }
