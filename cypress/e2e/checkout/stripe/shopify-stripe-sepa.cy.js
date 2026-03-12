@@ -97,6 +97,7 @@ describe('Shopify + Stripe + SEPA Debit Checkout', () => {
 
     // Step 13: Validate order in CMS Database
     cy.log('--- Step 13: Validate order in database ---');
+    cy.wait(15000);
     cy.checkOrderExistsInDatabase();
 
     cy.log('========== Test Completed Successfully ==========');
