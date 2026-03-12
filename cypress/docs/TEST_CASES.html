@@ -16,103 +16,110 @@
     /* ── Reset ─────────────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
+    /* ▓▓ VIEWPORT LOCK — page never scrolls, panels scroll independently ▓▓ */
+    html, body {
+      height: 100vh;
+      overflow: hidden;
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: #1a1b2e;
       color: #d4d8f0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      height: 100vh;
+      overflow: hidden;
     }
 
     /* ── Scrollbar ─────────────────────────────────────────────────────────── */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #1a1b2e; }
-    ::-webkit-scrollbar-thumb { background: #353860; border-radius: 4px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #353860; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #4a4f80; }
 
     /* ── Header ────────────────────────────────────────────────────────────── */
     .header {
       background: linear-gradient(135deg, #222540 0%, #1e2040 100%);
       border-bottom: 1px solid #353860;
-      padding: 20px 28px;
-      flex-shrink: 0;
+      padding: 16px 24px;
     }
     .header-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
     }
     .header h1 {
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       font-weight: 700;
       color: #e8ecff;
       letter-spacing: -0.4px;
     }
     .header h1 span { color: #6c7bf0; }
-    .header-actions { display: flex; gap: 10px; align-items: center; }
+    .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .server-status {
       display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.78rem; font-weight: 600; padding: 5px 14px;
+      font-size: 0.74rem; font-weight: 600; padding: 4px 12px;
       border-radius: 20px; background: #2d3050; border: 1px solid #353860;
     }
     .server-status.online { color: #4ade80; border-color: #2a5a3a; background: #1a3a2a; }
     .server-status.offline { color: #f87171; border-color: #5a2020; background: #3a1a1a; }
     .status-dot {
-      width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+      width: 7px; height: 7px; border-radius: 50%; display: inline-block;
     }
     .status-dot.online { background: #4ade80; box-shadow: 0 0 6px #4ade80; }
     .status-dot.offline { background: #f87171; box-shadow: 0 0 6px #f87171; }
+
+    /* Run timer badge */
+    .run-timer {
+      display: none;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #3a2f1a;
+      color: #fbbf24;
+      border: 1px solid #6b5520;
+      font-variant-numeric: tabular-nums;
+    }
+    .run-timer.visible { display: inline-flex; align-items: center; gap: 5px; }
 
     /* ── Buttons ───────────────────────────────────────────────────────────── */
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 18px;
-      border-radius: 10px;
+      gap: 5px;
+      padding: 6px 16px;
+      border-radius: 8px;
       border: none;
-      font-size: 0.84rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
       white-space: nowrap;
     }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-primary { background: #6c7bf0; color: #fff; }
-    .btn-primary:hover { background: #5a69e0; transform: translateY(-1px); }
+    .btn-primary:hover:not(:disabled) { background: #5a69e0; transform: translateY(-1px); }
     .btn-secondary { background: #2d3050; color: #8890b5; border: 1px solid #353860; }
-    .btn-secondary:hover { background: #353860; color: #d4d8f0; }
+    .btn-secondary:hover:not(:disabled) { background: #353860; color: #d4d8f0; }
     .btn-danger { background: #5a2020; color: #f87171; border: 1px solid #7a3030; }
-    .btn-danger:hover { background: #7a3030; color: #fca5a5; }
+    .btn-danger:hover:not(:disabled) { background: #7a3030; color: #fca5a5; }
     .btn-run {
-      background: #1a3a2a;
-      color: #4ade80;
-      border: 1px solid #2a5a3a;
-      font-size: 0.76rem;
-      padding: 4px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s ease;
-      white-space: nowrap;
+      background: #1a3a2a; color: #4ade80; border: 1px solid #2a5a3a;
+      font-size: 0.73rem; padding: 4px 11px; border-radius: 7px;
+      cursor: pointer; font-weight: 600; transition: all 0.15s ease; white-space: nowrap;
     }
     .btn-run:hover { background: #2a5a3a; color: #86efac; }
     .btn-run.running { background: #3a2f1a; color: #fbbf24; border-color: #6b5520; cursor: wait; }
     .btn-run.done-ok { background: #1a3a2a; color: #4ade80; border-color: #2a7a4a; }
     .btn-run.done-fail { background: #3a1a1a; color: #f87171; border-color: #7a3030; }
     .btn-run-headless {
-      background: #222540;
-      color: #6c7bf0;
-      border: 1px solid #4a4f80;
-      font-size: 0.76rem;
-      padding: 4px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s ease;
-      white-space: nowrap;
+      background: #222540; color: #6c7bf0; border: 1px solid #4a4f80;
+      font-size: 0.73rem; padding: 4px 11px; border-radius: 7px;
+      cursor: pointer; font-weight: 600; transition: all 0.15s ease; white-space: nowrap;
     }
     .btn-run-headless:hover { background: #353860; color: #8b9af5; }
     .btn-run-headless.running { background: #3a2f1a; color: #fbbf24; border-color: #6b5520; cursor: wait; }
@@ -122,27 +129,32 @@
     /* ── Stats Row ─────────────────────────────────────────────────────────── */
     .stats-row {
       display: flex;
-      gap: 16px;
-      margin-top: 18px;
+      gap: 12px;
+      margin-top: 14px;
       flex-wrap: wrap;
     }
     .stat-box {
       background: #222540;
       border: 1px solid #353860;
-      border-radius: 12px;
-      padding: 12px 22px;
+      border-radius: 10px;
+      padding: 10px 20px;
       text-align: center;
-      min-width: 95px;
-      transition: transform 0.2s ease;
+      min-width: 85px;
+      transition: transform 0.15s ease;
     }
-    .stat-box:hover { transform: translateY(-2px); }
-    .stat-box .num { font-size: 1.8rem; font-weight: 700; color: #6c7bf0; }
+    .stat-box:hover { transform: translateY(-1px); }
+    .stat-box .num {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #6c7bf0;
+      transition: color 0.3s ease;
+    }
     .stat-box .lbl {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #8890b5;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-top: 2px;
+      letter-spacing: 0.7px;
+      margin-top: 1px;
     }
     .stat-box.pass .num { color: #4ade80; }
     .stat-box.fail .num { color: #f87171; }
@@ -151,25 +163,24 @@
     .tab-bar {
       background: #1e2040;
       border-bottom: 1px solid #353860;
-      padding: 10px 20px 0;
+      padding: 8px 20px 0;
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
-      flex-shrink: 0;
+      gap: 3px;
     }
     .tab-btn {
-      padding: 8px 14px;
+      padding: 7px 13px;
       border: none;
       background: transparent;
       color: #8890b5;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
       cursor: pointer;
-      border-radius: 8px 8px 0 0;
-      transition: all 0.2s ease;
+      border-radius: 7px 7px 0 0;
+      transition: all 0.15s ease;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       white-space: nowrap;
     }
     .tab-btn:hover { background: #2d3050; color: #d4d8f0; }
@@ -181,58 +192,119 @@
     .tab-badge {
       background: #353860;
       color: #8890b5;
-      font-size: 0.65rem;
-      padding: 1px 7px;
-      border-radius: 10px;
+      font-size: 0.62rem;
+      padding: 1px 6px;
+      border-radius: 9px;
       font-weight: 700;
     }
-    .tab-btn.active .tab-badge {
-      background: #6c7bf0;
-      color: #fff;
+    .tab-btn.active .tab-badge { background: #6c7bf0; color: #fff; }
+
+    /* ▓▓ GRID LAYOUT — left panel + resizer + right log panel ▓▓ */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 4px minmax(320px, var(--log-width, 45%));
+      overflow: hidden;
+      min-height: 0; /* critical for grid children to not overflow */
     }
 
-    /* ── Split Layout ──────────────────────────────────────────────────────── */
-    .main-split {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
+    /* ── Left Panel (test files) ──────────────────────────────────────────── */
     .left-panel {
-      flex: 1;
       overflow-y: auto;
-      padding: 20px 24px;
+      padding: 16px 20px;
       min-width: 0;
     }
+
+    /* ── Resizer ──────────────────────────────────────────────────────────── */
+    .panel-resizer {
+      background: #353860;
+      cursor: col-resize;
+      position: relative;
+      transition: background 0.15s ease;
+      z-index: 5;
+    }
+    .panel-resizer:hover,
+    .panel-resizer.dragging {
+      background: #6c7bf0;
+    }
+    .panel-resizer::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 2px;
+      height: 30px;
+      background: #8890b5;
+      border-radius: 1px;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .panel-resizer:hover::after { opacity: 1; }
+
+    /* ── Right Panel (live log) ────────────────────────────────────────────── */
     .right-panel {
-      width: 50%;
-      min-width: 380px;
       background: #222540;
-      border-left: 1px solid #353860;
       display: flex;
       flex-direction: column;
-      flex-shrink: 0;
+      overflow: hidden;
+      min-width: 0;
     }
     .log-header {
-      padding: 14px 18px;
+      padding: 10px 16px;
       background: #1e2040;
       border-bottom: 1px solid #353860;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 10px;
       flex-shrink: 0;
     }
     .log-header h3 {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #d4d8f0;
       font-weight: 600;
     }
-    .log-body {
+    .log-header-actions { display: flex; gap: 6px; align-items: center; }
+    .log-line-count {
+      font-size: 0.68rem;
+      color: #8890b5;
+      font-weight: 600;
+      padding: 2px 8px;
+      background: #2d3050;
+      border-radius: 10px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Progress Bar ──────────────────────────────────────────────────────── */
+    .progress-bar-container {
+      height: 4px;
+      background: #1a1b2e;
+      overflow: hidden;
+      display: none;
+      flex-shrink: 0;
+    }
+    .progress-bar-container.visible { display: block; }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #6c7bf0, #4ade80);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* ── Log Body ──────────────────────────────────────────────────────────── */
+    .log-body-wrapper {
       flex: 1;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .log-body {
+      height: 100%;
       overflow-y: auto;
-      padding: 14px 18px;
+      padding: 12px 16px;
       font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
-      font-size: 0.78rem;
-      line-height: 1.6;
+      font-size: 0.76rem;
+      line-height: 1.55;
       color: #8890b5;
       white-space: pre-wrap;
       word-break: break-word;
@@ -242,25 +314,36 @@
     .log-body .log-info { color: #6c7bf0; }
     .log-body .log-warn { color: #fbbf24; }
     .log-body .log-bold { font-weight: 700; color: #d4d8f0; }
+    .log-body .log-dim { color: #5a5e80; }
+    .log-body .log-ts {
+      color: #5a5e80;
+      font-size: 0.68rem;
+      margin-right: 6px;
+      user-select: none;
+    }
 
-    /* ── Progress Bar ──────────────────────────────────────────────────────── */
-    .progress-bar-container {
-      height: 6px;
-      background: #1a1b2e;
-      border-radius: 3px;
-      overflow: hidden;
-      margin: 8px 18px;
+    /* Scroll-to-bottom FAB */
+    .scroll-bottom-btn {
+      position: absolute;
+      bottom: 14px;
+      right: 20px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #6c7bf0;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
       display: none;
-      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 12px rgba(108,123,240,0.4);
+      transition: all 0.15s ease;
+      z-index: 10;
     }
-    .progress-bar-container.visible { display: block; }
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #6c7bf0, #4ade80);
-      border-radius: 3px;
-      width: 0%;
-      transition: width 0.3s ease;
-    }
+    .scroll-bottom-btn:hover { background: #5a69e0; transform: scale(1.1); }
+    .scroll-bottom-btn.visible { display: flex; }
 
     /* ── Tab Content ───────────────────────────────────────────────────────── */
     .tab-content { display: none; }
@@ -270,7 +353,7 @@
     .file-table-card {
       background: #222540;
       border: 1px solid #353860;
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
     }
     .file-table {
@@ -279,43 +362,47 @@
     }
     .file-table th {
       text-align: left;
-      padding: 12px 16px;
-      font-size: 0.7rem;
+      padding: 10px 14px;
+      font-size: 0.68rem;
       color: #8890b5;
       text-transform: uppercase;
       letter-spacing: 0.7px;
       background: #1e2040;
       border-bottom: 1px solid #353860;
+      position: sticky;
+      top: 0;
+      z-index: 2;
     }
     .file-table td {
-      padding: 12px 16px;
-      font-size: 0.84rem;
-      border-bottom: 1px solid rgba(53, 56, 96, 0.4);
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      border-bottom: 1px solid rgba(53, 56, 96, 0.3);
       color: #d4d8f0;
       vertical-align: middle;
     }
     .file-table tr:last-child td { border-bottom: none; }
+    .file-table tr { transition: background 0.3s ease; }
     .file-table tr:hover td { background: rgba(108, 123, 240, 0.04); }
-    .file-table .col-num { width: 45px; text-align: center; color: #8890b5; font-weight: 600; }
-    .file-table .col-db { width: 100px; text-align: center; }
-    .file-table .col-status { width: 110px; text-align: center; }
-    .file-table .col-actions { width: 180px; text-align: center; white-space: nowrap; }
+    .file-table .col-num { width: 40px; text-align: center; color: #8890b5; font-weight: 600; }
+    .file-table .col-db { width: 90px; text-align: center; }
+    .file-table .col-status { width: 100px; text-align: center; }
+    .file-table .col-actions { width: 170px; text-align: center; white-space: nowrap; }
     .file-table .col-actions .btn-run,
-    .file-table .col-actions .btn-run-headless { margin: 0 3px; }
-    .file-name { font-weight: 600; }
+    .file-table .col-actions .btn-run-headless { margin: 0 2px; }
+    .file-name { font-weight: 600; font-size: 0.8rem; }
 
     /* ── Status Badges ─────────────────────────────────────────────────────── */
     .badge {
       display: inline-block;
-      padding: 4px 12px;
-      border-radius: 8px;
-      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 7px;
+      font-size: 0.68rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.15s ease;
       user-select: none;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
     .badge:hover { transform: scale(1.05); }
     .badge-notrun { background: #2d3050; color: #8890b5; }
@@ -325,9 +412,9 @@
     .badge-skip { background: #2d3050; color: #6c7bf0; }
 
     .db-badge {
-      font-size: 0.7rem;
-      padding: 2px 8px;
-      border-radius: 6px;
+      font-size: 0.66rem;
+      padding: 2px 7px;
+      border-radius: 5px;
       font-weight: 600;
     }
     .db-yes { background: #1a3a2a; color: #4ade80; }
@@ -336,162 +423,132 @@
     /* ── Reports Tab ───────────────────────────────────────────────────────── */
     .reports-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
     }
     .report-card {
       background: #222540;
       border: 1px solid #353860;
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 10px;
+      padding: 14px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
       position: relative;
     }
-    .report-card:hover { border-color: #6c7bf0; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+    .report-card:hover { border-color: #6c7bf0; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
     .report-card.selected { border-color: #6c7bf0; background: #2a2d55; }
-    .report-card .rc-title { font-size: 0.85rem; font-weight: 600; color: #d4d8f0; margin-bottom: 6px; }
-    .report-card .rc-time { font-size: 0.72rem; color: #8890b5; margin-bottom: 8px; }
-    .report-card .rc-stats { display: flex; gap: 10px; font-size: 0.75rem; }
+    .report-card .rc-title { font-size: 0.82rem; font-weight: 600; color: #d4d8f0; margin-bottom: 4px; }
+    .report-card .rc-time { font-size: 0.7rem; color: #8890b5; margin-bottom: 6px; }
+    .report-card .rc-stats { display: flex; gap: 10px; font-size: 0.72rem; }
     .report-card .rc-pass { color: #4ade80; }
     .report-card .rc-fail { color: #f87171; }
     .report-card .rc-check {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 18px;
-      height: 18px;
-      border: 2px solid #353860;
-      border-radius: 4px;
-      cursor: pointer;
+      position: absolute; top: 8px; right: 8px;
+      width: 16px; height: 16px;
+      border: 2px solid #353860; border-radius: 3px; cursor: pointer;
     }
     .report-card.selected .rc-check { background: #6c7bf0; border-color: #6c7bf0; }
     .report-card .rc-files {
-      margin-top: 10px;
-      font-size: 0.75rem;
-      color: #8890b5;
-      border-top: 1px solid rgba(53,56,96,0.4);
-      padding-top: 8px;
+      margin-top: 8px; font-size: 0.72rem; color: #8890b5;
+      border-top: 1px solid rgba(53,56,96,0.4); padding-top: 6px;
     }
     .report-card .rc-file-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 3px 0;
+      display: flex; align-items: center; gap: 6px; padding: 2px 0;
     }
-    .report-card .rc-file-row .badge {
-      font-size: 0.6rem;
-      padding: 1px 7px;
-    }
+    .report-card .rc-file-row .badge { font-size: 0.58rem; padding: 1px 6px; }
 
     /* Report Detail Modal */
     .report-detail-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      display: none; position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(10, 10, 20, 0.85);
       z-index: 1000;
-      justify-content: center;
-      align-items: center;
+      justify-content: center; align-items: center;
     }
     .report-detail-overlay.visible { display: flex; }
     .report-detail-modal {
-      background: #222540;
-      border: 1px solid #353860;
-      border-radius: 14px;
-      width: 90%;
-      max-width: 800px;
-      max-height: 80vh;
-      overflow-y: auto;
-      padding: 28px;
+      background: #222540; border: 1px solid #353860;
+      border-radius: 12px; width: 90%; max-width: 750px;
+      max-height: 80vh; overflow-y: auto; padding: 24px;
     }
-    .report-detail-modal h2 {
-      font-size: 1.1rem;
-      color: #d4d8f0;
-      margin-bottom: 6px;
-    }
-    .report-detail-modal .rd-time { font-size: 0.78rem; color: #8890b5; margin-bottom: 18px; }
+    .report-detail-modal h2 { font-size: 1.05rem; color: #d4d8f0; margin-bottom: 4px; }
+    .report-detail-modal .rd-time { font-size: 0.74rem; color: #8890b5; margin-bottom: 14px; }
     .rd-file-list { list-style: none; }
     .rd-file-item {
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-bottom: 1px solid rgba(53, 56, 96, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: flex; align-items: center; gap: 10px;
     }
     .rd-file-item:last-child { border-bottom: none; }
-    .rd-file-name { flex: 1; font-size: 0.86rem; color: #d4d8f0; font-weight: 600; }
-    .rd-file-err { font-size: 0.76rem; color: #f87171; margin-top: 4px; font-family: monospace; }
+    .rd-file-name { flex: 1; font-size: 0.82rem; color: #d4d8f0; font-weight: 600; }
+    .rd-file-err { font-size: 0.72rem; color: #f87171; margin-top: 3px; font-family: monospace; }
 
     /* ── Toast ─────────────────────────────────────────────────────────────── */
     .toast-container {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      position: fixed; top: 16px; right: 16px;
+      z-index: 2000; display: flex; flex-direction: column; gap: 6px;
     }
     .toast {
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      padding: 10px 18px; border-radius: 8px;
+      font-size: 0.78rem; font-weight: 600;
+      animation: toastIn 0.25s ease, toastOut 0.25s ease 2.7s forwards;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
     }
     .toast-success { background: #1a3a2a; color: #4ade80; border: 1px solid #2a5a3a; }
     .toast-error { background: #3a1a1a; color: #f87171; border: 1px solid #5a2020; }
     .toast-info { background: #222540; color: #6c7bf0; border: 1px solid #353860; }
-    @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
-    @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateY(-10px); } }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateY(-8px); } }
 
     /* ── Footer ────────────────────────────────────────────────────────────── */
     .footer {
       background: #1e2040;
       border-top: 1px solid #353860;
-      padding: 12px 28px;
+      padding: 8px 24px;
       text-align: center;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #8890b5;
-      flex-shrink: 0;
     }
 
     /* ── Error Summary ─────────────────────────────────────────────────────── */
     .error-summary {
-      background: #3a1a1a;
-      border: 1px solid #5a2020;
-      border-radius: 10px;
-      padding: 14px 18px;
-      margin: 10px 18px;
-      display: none;
+      background: #3a1a1a; border: 1px solid #5a2020;
+      border-radius: 8px; padding: 10px 14px; margin: 8px 16px;
+      display: none; flex-shrink: 0;
     }
     .error-summary.visible { display: block; }
-    .error-summary h4 { color: #f87171; font-size: 0.84rem; margin-bottom: 8px; }
+    .error-summary h4 { color: #f87171; font-size: 0.78rem; margin-bottom: 6px; }
     .error-summary ul { list-style: none; }
     .error-summary li {
-      padding: 6px 0;
+      padding: 4px 0;
       border-bottom: 1px solid rgba(248,113,113,0.15);
-      font-size: 0.78rem;
-      color: #fca5a5;
+      font-size: 0.74rem; color: #fca5a5;
     }
     .error-summary li:last-child { border-bottom: none; }
     .error-summary .err-title { font-weight: 600; color: #f87171; }
-    .error-summary .err-msg { color: #d4a0a0; margin-top: 2px; font-family: monospace; font-size: 0.72rem; }
+    .error-summary .err-msg { color: #d4a0a0; margin-top: 2px; font-family: monospace; font-size: 0.68rem; }
+
+    /* ── Responsive ────────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 4px minmax(200px, 40vh);
+      }
+      .panel-resizer { cursor: row-resize; }
+      .right-panel { min-width: 0; }
+    }
   </style>
 </head>
 <body>
 
+<div class="app-shell">
   <!-- ── Header ──────────────────────────────────────────────────────────── -->
   <div class="header">
     <div class="header-top">
       <h1>Checkout <span>E2E</span> - Test Dashboard</h1>
       <div class="header-actions">
         <span class="server-status" id="serverStatus"><span class="status-dot offline"></span> Server Offline</span>
+        <span class="run-timer" id="runTimer">00:00</span>
         <button class="btn btn-secondary" onclick="doSync()">Sync</button>
         <button class="btn btn-primary" id="runAllHeadedBtn" onclick="runAll('headed')">Run All Headed</button>
         <button class="btn btn-secondary" id="runAllHeadlessBtn" onclick="runAll('headless')">Run All Headless</button>
@@ -509,13 +566,17 @@
   <!-- ── Tab Bar ─────────────────────────────────────────────────────────── -->
   <div class="tab-bar" id="tabBar"></div>
 
-  <!-- ── Main Split ──────────────────────────────────────────────────────── -->
-  <div class="main-split">
+  <!-- ▓▓ MAIN GRID — left panel + resizer + right log ▓▓ -->
+  <div class="main-grid" id="mainGrid">
     <div class="left-panel" id="leftPanel"></div>
+    <div class="panel-resizer" id="panelResizer"></div>
     <div class="right-panel">
       <div class="log-header">
         <h3>Live Log</h3>
-        <button class="btn btn-secondary" style="padding:4px 10px;font-size:0.72rem;" onclick="clearLog()">Clear</button>
+        <div class="log-header-actions">
+          <span class="log-line-count" id="logLineCount">0 lines</span>
+          <button class="btn btn-secondary" style="padding:3px 9px;font-size:0.68rem;" onclick="clearLog()">Clear</button>
+        </div>
       </div>
       <div class="progress-bar-container" id="progressBarContainer">
         <div class="progress-bar" id="progressBar"></div>
@@ -524,20 +585,24 @@
         <h4>Failed Tests</h4>
         <ul id="errorList"></ul>
       </div>
-      <div class="log-body" id="logBody">Waiting for test run...</div>
+      <div class="log-body-wrapper">
+        <div class="log-body" id="logBody">Waiting for test run...</div>
+        <button class="scroll-bottom-btn" id="scrollBottomBtn" onclick="scrollLogToBottom()" title="Scroll to bottom">&#8595;</button>
+      </div>
     </div>
   </div>
 
-  <!-- ── Report Detail Overlay ───────────────────────────────────────────── -->
-  <div class="report-detail-overlay" id="reportDetailOverlay" onclick="if(event.target===this)closeReportDetail()">
-    <div class="report-detail-modal" id="reportDetailModal"></div>
-  </div>
-
-  <!-- ── Toast Container ─────────────────────────────────────────────────── -->
-  <div class="toast-container" id="toastContainer"></div>
-
   <!-- ── Footer ──────────────────────────────────────────────────────────── -->
   <div class="footer" id="footerBar">Checkout E2E Test Cases</div>
+</div>
+
+<!-- ── Report Detail Overlay ───────────────────────────────────────────── -->
+<div class="report-detail-overlay" id="reportDetailOverlay" onclick="if(event.target===this)closeReportDetail()">
+  <div class="report-detail-modal" id="reportDetailModal"></div>
+</div>
+
+<!-- ── Toast Container ─────────────────────────────────────────────────── -->
+<div class="toast-container" id="toastContainer"></div>
 
 <script>
 /* ════════════════════════════════════════════════════════════════════════════
@@ -663,6 +728,10 @@ let runningSource = null;
 let totalRunPassed = 0;
 let totalRunFailed = 0;
 let selectedReports = new Set();
+let logLineCount = 0;
+let logAutoScroll = true;  // smart auto-scroll flag
+let runTimerInterval = null;
+let runStartTime = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    INIT
@@ -679,7 +748,90 @@ document.addEventListener('DOMContentLoaded', () => {
   buildTabContents();
   switchTab(TABS[0].id);
   updateGlobalStats();
+  initResizer();
+  initLogScroll();
 });
+
+/* ════════════════════════════════════════════════════════════════════════════
+   DRAGGABLE PANEL RESIZER
+   ════════════════════════════════════════════════════════════════════════════ */
+function initResizer() {
+  const resizer = document.getElementById('panelResizer');
+  const grid = document.getElementById('mainGrid');
+  let startX, startWidth;
+
+  resizer.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    resizer.classList.add('dragging');
+    startX = e.clientX;
+    const rightPanel = grid.querySelector('.right-panel');
+    startWidth = rightPanel.getBoundingClientRect().width;
+    document.addEventListener('mousemove', onDrag);
+    document.addEventListener('mouseup', onDragEnd);
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  });
+
+  function onDrag(e) {
+    const dx = startX - e.clientX;
+    const newWidth = Math.max(280, Math.min(startWidth + dx, window.innerWidth * 0.75));
+    grid.style.gridTemplateColumns = `1fr 4px ${newWidth}px`;
+  }
+
+  function onDragEnd() {
+    resizer.classList.remove('dragging');
+    document.removeEventListener('mousemove', onDrag);
+    document.removeEventListener('mouseup', onDragEnd);
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   SMART AUTO-SCROLL — auto-scroll when at bottom, manual when scrolled up
+   ════════════════════════════════════════════════════════════════════════════ */
+function initLogScroll() {
+  const logBody = document.getElementById('logBody');
+  const scrollBtn = document.getElementById('scrollBottomBtn');
+
+  logBody.addEventListener('scroll', () => {
+    const nearBottom = logBody.scrollHeight - logBody.scrollTop - logBody.clientHeight < 40;
+    logAutoScroll = nearBottom;
+    scrollBtn.classList.toggle('visible', !nearBottom && logBody.scrollHeight > logBody.clientHeight + 100);
+  });
+}
+
+function scrollLogToBottom() {
+  const logBody = document.getElementById('logBody');
+  logBody.scrollTop = logBody.scrollHeight;
+  logAutoScroll = true;
+  document.getElementById('scrollBottomBtn').classList.remove('visible');
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   RUN TIMER
+   ════════════════════════════════════════════════════════════════════════════ */
+function startRunTimer() {
+  runStartTime = Date.now();
+  const el = document.getElementById('runTimer');
+  el.classList.add('visible');
+  el.textContent = '00:00';
+  runTimerInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - runStartTime) / 1000);
+    const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+    const s = String(elapsed % 60).padStart(2, '0');
+    el.textContent = m + ':' + s;
+  }, 1000);
+}
+
+function stopRunTimer() {
+  clearInterval(runTimerInterval);
+  runTimerInterval = null;
+  // keep visible to show final time; hide after 8s
+  setTimeout(() => {
+    document.getElementById('runTimer').classList.remove('visible');
+  }, 8000);
+}
 
 /* ════════════════════════════════════════════════════════════════════════════
    TAB BAR
@@ -724,7 +876,7 @@ function buildTabContents() {
     html += `<thead><tr>
       <th class="col-num">#</th>
       <th>Test File (Test Case)</th>
-      <th class="col-db">DB Verified</th>
+      <th class="col-db">DB</th>
       <th class="col-status">Status</th>
       <th class="col-actions">Actions</th>
     </tr></thead>`;
@@ -759,7 +911,7 @@ function buildTabContents() {
 
   // Reports tab
   html += `<div class="tab-content" id="tab-reports">
-    <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center;">
+    <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;">
       <button class="btn btn-secondary" onclick="loadReports()">&#10227; Refresh</button>
       <button class="btn btn-primary" onclick="downloadSelectedReports()">&#11015; Download PDF</button>
       <button class="btn btn-danger" onclick="deleteSelectedReports()">&#10005; Delete Selected</button>
@@ -798,17 +950,16 @@ function setFileStatus(tabId, fi, status) {
     el.className = 'badge badge-' + status;
     el.textContent = statusLabel(status);
   }
-  // Highlight the row briefly
   const row = document.getElementById(`row-${tabId}-f${fi}`);
   if (row) {
     row.style.transition = 'background 0.4s ease';
-    row.style.background = status === 'pass' ? 'rgba(74,222,128,0.08)' : 'rgba(248,113,113,0.08)';
-    setTimeout(() => { row.style.background = ''; }, 2000);
+    row.style.background = status === 'pass' ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)';
+    setTimeout(() => { row.style.background = ''; }, 2500);
   }
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   GLOBAL STATS — count file-level statuses
+   GLOBAL STATS
    ════════════════════════════════════════════════════════════════════════════ */
 function updateGlobalStats() {
   let passed = 0, failed = 0;
@@ -819,26 +970,60 @@ function updateGlobalStats() {
       if (s === 'fail') failed++;
     });
   });
-  document.getElementById('statPassed').textContent = passed;
-  document.getElementById('statFailed').textContent = failed;
+  animateNumber('statPassed', passed);
+  animateNumber('statFailed', failed);
+}
+
+function animateNumber(id, target) {
+  const el = document.getElementById(id);
+  const current = parseInt(el.textContent) || 0;
+  if (current === target) return;
+  el.textContent = target;
+  el.style.transform = 'scale(1.2)';
+  el.style.transition = 'transform 0.2s ease';
+  setTimeout(() => { el.style.transform = 'scale(1)'; }, 200);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LOG PANEL
+   LOG PANEL — with timestamps & smart auto-scroll
    ════════════════════════════════════════════════════════════════════════════ */
 function appendLog(msg, cls) {
   const body = document.getElementById('logBody');
-  const span = document.createElement('span');
-  if (cls) span.className = cls;
-  span.textContent = msg + '\n';
-  body.appendChild(span);
-  body.scrollTop = body.scrollHeight;
+  const line = document.createElement('div');
+
+  // Add timestamp
+  const ts = document.createElement('span');
+  ts.className = 'log-ts';
+  const now = new Date();
+  ts.textContent = String(now.getHours()).padStart(2,'0') + ':' +
+                   String(now.getMinutes()).padStart(2,'0') + ':' +
+                   String(now.getSeconds()).padStart(2,'0');
+  line.appendChild(ts);
+
+  const content = document.createElement('span');
+  if (cls) content.className = cls;
+  content.textContent = msg;
+  line.appendChild(content);
+
+  body.appendChild(line);
+  logLineCount++;
+  document.getElementById('logLineCount').textContent = logLineCount + ' line' + (logLineCount !== 1 ? 's' : '');
+
+  // Smart auto-scroll: only scroll if user is already at bottom
+  if (logAutoScroll) {
+    body.scrollTop = body.scrollHeight;
+  }
 }
 
 function clearLog() {
-  document.getElementById('logBody').innerHTML = '';
+  const body = document.getElementById('logBody');
+  body.innerHTML = '';
+  logLineCount = 0;
+  logAutoScroll = true;
+  document.getElementById('logLineCount').textContent = '0 lines';
   document.getElementById('errorSummary').classList.remove('visible');
   document.getElementById('progressBarContainer').classList.remove('visible');
+  document.getElementById('scrollBottomBtn').classList.remove('visible');
 }
 
 function setProgress(pct) {
@@ -866,12 +1051,8 @@ function showToast(msg, type) {
 function doSync() {
   fetch(SERVER + '/sync')
     .then(r => r.json())
-    .then(data => {
-      showToast('Sync completed successfully', 'success');
-    })
-    .catch(err => {
-      showToast('Sync failed: ' + err.message, 'error');
-    });
+    .then(data => { showToast('Sync completed successfully', 'success'); })
+    .catch(err => { showToast('Sync failed: ' + err.message, 'error'); });
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -882,7 +1063,7 @@ function stopTests() {
     runningSource.close();
     runningSource = null;
   }
-  appendLog('', '');
+  stopRunTimer();
   appendLog('=== Tests Stopped by User ===', 'log-fail');
 
   document.getElementById('stopBtn').style.display = 'none';
@@ -929,20 +1110,21 @@ function runAll(mode) {
   }
   clearLog();
   resetAllStatuses();
+  startRunTimer();
   btn.textContent = 'Running...';
   btn.disabled = true;
   const otherBtn = document.getElementById(mode === 'headless' ? 'runAllHeadedBtn' : 'runAllHeadlessBtn');
   if (otherBtn) otherBtn.disabled = true;
   appendLog(`=== Run All Tests (${mode}) ===`, 'log-bold');
   appendLog('Spec: cypress/e2e/checkout/**/*.cy.js', 'log-info');
-  appendLog('', '');
+  appendLog('', 'log-dim');
 
   const spec = 'cypress/e2e/checkout/**/*.cy.js';
   runWithEventSource(spec, null, null, null, btn, mode, true);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   RUN SINGLE SPEC (file)
+   RUN SINGLE SPEC
    ════════════════════════════════════════════════════════════════════════════ */
 function runSpec(spec, tabId, fi, btn, mode) {
   mode = mode || 'headed';
@@ -952,7 +1134,6 @@ function runSpec(spec, tabId, fi, btn, mode) {
   }
   clearLog();
 
-  // Reset only this file's status
   const key = `status:${tabId}-f${fi}`;
   localStorage.removeItem(key);
   const badgeEl = document.querySelector(`[data-key="${key}"]`);
@@ -961,12 +1142,13 @@ function runSpec(spec, tabId, fi, btn, mode) {
   totalRunPassed = 0;
   totalRunFailed = 0;
 
+  startRunTimer();
   btn.dataset.label = btn.textContent;
   btn.classList.add('running');
   btn.textContent = 'Running...';
   appendLog(`=== Run File (${mode}) ===`, 'log-bold');
   appendLog('Spec: ' + spec, 'log-info');
-  appendLog('', '');
+  appendLog('', 'log-dim');
 
   runWithEventSource(spec, tabId, fi, btn, null, mode, false);
 }
@@ -1007,7 +1189,6 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
           sf > 0 ? 'log-fail' : 'log-pass');
         setProgress((specCount / totalSpecs) * 100);
 
-        // If this is spec-done during a run-all, try to match and update that file's status immediately
         if (isRunAll && data.spec) {
           const specPath = (data.spec || '').replace(/\\/g, '/');
           TABS.forEach(tab => {
@@ -1025,6 +1206,7 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
       if (data.status === 'done') {
         es.close();
         runningSource = null;
+        stopRunTimer();
         document.getElementById('stopBtn').style.display = 'none';
         setProgress(100);
 
@@ -1033,12 +1215,11 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
         const passes = report.passes || [];
         const failures = report.failures || [];
 
-        appendLog('', '');
+        appendLog('', 'log-dim');
         appendLog('=== Run Complete ===', 'log-bold');
         appendLog(`Result: ${ok ? 'PASSED' : 'FAILED'}`, ok ? 'log-pass' : 'log-fail');
         appendLog(`Total Passed: ${passes.length}  Failed: ${failures.length}`, '');
 
-        // Apply results to file status rows
         applyReportToFiles(passes, failures, tabId, fi, isRunAll);
 
         if (failures.length > 0) {
@@ -1076,6 +1257,7 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
   es.onerror = function() {
     es.close();
     runningSource = null;
+    stopRunTimer();
     document.getElementById('stopBtn').style.display = 'none';
     appendLog('Connection lost or error occurred.', 'log-fail');
     if (fileBtn) {
@@ -1101,11 +1283,8 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
 
 /* ════════════════════════════════════════════════════════════════════════════
    APPLY REPORT TO FILE ROWS
-   Matches mochawesome results to files and sets PASS/FAIL per file
    ════════════════════════════════════════════════════════════════════════════ */
 function applyReportToFiles(passes, failures, singleTabId, singleFi, isRunAll) {
-
-  // If single file run, just set that file's status
   if (!isRunAll && singleTabId !== null && singleFi !== null) {
     const hasFail = failures.length > 0;
     setFileStatus(singleTabId, singleFi, hasFail ? 'fail' : 'pass');
@@ -1113,9 +1292,7 @@ function applyReportToFiles(passes, failures, singleTabId, singleFi, isRunAll) {
     return;
   }
 
-  // For Run All: group results by spec file path, then match to TABS files
-  const fileResults = {};  // specPath → { passed: N, failed: N }
-
+  const fileResults = {};
   passes.forEach(p => {
     const fp = (typeof p === 'string' ? '' : (p.file || '')).replace(/\\\\/g, '/').replace(/\\/g, '/');
     if (fp) {
@@ -1137,8 +1314,6 @@ function applyReportToFiles(passes, failures, singleTabId, singleFi, isRunAll) {
     tab.files.forEach((file, fi) => {
       const specNorm = file.spec.replace(/\\/g, '/');
       const fileName = specNorm.split('/').pop();
-
-      // Try to match this file to a result path
       let matched = false;
       for (const rp of resultPaths) {
         if (rp.endsWith(specNorm) || specNorm.endsWith(rp) ||
@@ -1150,8 +1325,6 @@ function applyReportToFiles(passes, failures, singleTabId, singleFi, isRunAll) {
           break;
         }
       }
-
-      // If no path match, try matching by test title
       if (!matched && file.tests.length > 0) {
         const testTitle = file.tests[0].title.toLowerCase();
         const isPass = passes.some(p => {
@@ -1162,11 +1335,8 @@ function applyReportToFiles(passes, failures, singleTabId, singleFi, isRunAll) {
           const ft = (typeof f === 'string' ? f : (f.title || '')).toLowerCase();
           return ft === testTitle || ft.includes(testTitle) || testTitle.includes(ft);
         });
-        if (isFail) {
-          setFileStatus(tab.id, fi, 'fail');
-        } else if (isPass) {
-          setFileStatus(tab.id, fi, 'pass');
-        }
+        if (isFail) setFileStatus(tab.id, fi, 'fail');
+        else if (isPass) setFileStatus(tab.id, fi, 'pass');
       }
     });
   });
@@ -1182,7 +1352,6 @@ function showErrorSummary(failures) {
   list.innerHTML = '';
   failures.forEach(f => {
     const li = document.createElement('li');
-    // Show the file name (not test title)
     const fp = (typeof f === 'string' ? '' : (f.file || '')).replace(/\\\\/g, '/').replace(/\\/g, '/');
     const fileName = fp ? fp.split('/').pop() : (typeof f === 'string' ? f : (f.title || 'Unknown'));
     li.innerHTML = `<div class="err-title">${escapeHtml(fileName)}</div>` +
@@ -1193,7 +1362,7 @@ function showErrorSummary(failures) {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   REPORTS — show file names with Pass/Fail
+   REPORTS
    ════════════════════════════════════════════════════════════════════════════ */
 function loadReports() {
   const grid = document.getElementById('reportsGrid');
@@ -1220,7 +1389,6 @@ function loadReports() {
         const time = rpt.time || rpt.date || '';
         const safeFile = (rpt.file || rpt.name || '').replace(/'/g, "\\'");
 
-        // Build file-level result list if available
         let fileListHtml = '';
         if (rpt.detail && (rpt.detail.passes || rpt.detail.failures)) {
           const fileMap = buildFileMapFromDetail(rpt.detail);
@@ -1247,8 +1415,8 @@ function loadReports() {
             <span class="rc-fail">${failures} failed</span>
           </div>
           ${fileListHtml}
-          <div style="display:flex;gap:8px;margin-top:10px;">
-            <button class="btn-run" onclick="event.stopPropagation();openReportDetail('${safeFile}')">View Report</button>
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            <button class="btn-run" onclick="event.stopPropagation();openReportDetail('${safeFile}')">View</button>
             <button class="btn-run-headless" onclick="event.stopPropagation();downloadReportAsPDF('${safeFile}')">PDF</button>
           </div>`;
         grid.appendChild(card);
@@ -1290,10 +1458,7 @@ function toggleReportSelect(card) {
 }
 
 function deleteSelectedReports() {
-  if (selectedReports.size === 0) {
-    showToast('No reports selected', 'error');
-    return;
-  }
+  if (selectedReports.size === 0) { showToast('No reports selected', 'error'); return; }
   const files = Array.from(selectedReports);
   fetch(SERVER + '/reports/delete', {
     method: 'POST',
@@ -1301,13 +1466,8 @@ function deleteSelectedReports() {
     body: JSON.stringify({ files })
   })
     .then(r => r.json())
-    .then(() => {
-      showToast(`Deleted ${files.length} report(s)`, 'success');
-      loadReports();
-    })
-    .catch(err => {
-      showToast('Delete failed: ' + err.message, 'error');
-    });
+    .then(() => { showToast(`Deleted ${files.length} report(s)`, 'success'); loadReports(); })
+    .catch(err => { showToast('Delete failed: ' + err.message, 'error'); });
 }
 
 function downloadSelectedReports() {
@@ -1317,7 +1477,7 @@ function downloadSelectedReports() {
       .then(r => r.json())
       .then(data => {
         const reports = data.reports || data || [];
-        if (!reports.length) { showToast('No reports to download', 'error'); return; }
+        if (!reports.length) { showToast('No reports', 'error'); return; }
         reports.forEach(r => downloadReportAsPDF(r.file || r.name || ''));
       })
       .catch(err => showToast('Error: ' + err.message, 'error'));
@@ -1328,20 +1488,15 @@ function downloadSelectedReports() {
 
 function downloadReportAsPDF(file) {
   if (!window.jspdf) {
-    showToast('PDF library loading... try again in a moment', 'error');
-    const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js';
-    document.head.appendChild(s);
+    showToast('PDF library loading...', 'error');
     return;
   }
   fetch(SERVER + '/reports/get?file=' + encodeURIComponent(file))
     .then(r => r.json())
     .then(data => {
       const detail = data.detail || {};
-      const passes = Array.isArray(detail.passes) ? detail.passes
-                   : Array.isArray(data.passes) ? data.passes : [];
-      const failures = Array.isArray(detail.failures) ? detail.failures
-                     : Array.isArray(data.failures) ? data.failures : [];
+      const passes = Array.isArray(detail.passes) ? detail.passes : Array.isArray(data.passes) ? data.passes : [];
+      const failures = Array.isArray(detail.failures) ? detail.failures : Array.isArray(data.failures) ? data.failures : [];
       const passCount = passes.length || (typeof data.passes === 'number' ? data.passes : 0);
       const failCount = failures.length || (typeof data.failures === 'number' ? data.failures : 0);
       const title = data.label || data.file || data.name || file;
@@ -1354,38 +1509,23 @@ function downloadReportAsPDF(file) {
       let y = 20;
       const checkPage = (need) => { if (y + need > 275) { doc.addPage(); y = 20; } };
 
-      // Header
-      doc.setFillColor(34, 37, 64);
-      doc.rect(0, 0, W, 38, 'F');
-      doc.setFontSize(18); doc.setTextColor(232, 236, 255);
-      doc.text('E2E Test Report', 14, 16);
+      doc.setFillColor(34, 37, 64); doc.rect(0, 0, W, 38, 'F');
+      doc.setFontSize(18); doc.setTextColor(232, 236, 255); doc.text('E2E Test Report', 14, 16);
       doc.setFontSize(9); doc.setTextColor(136, 144, 181);
-      doc.text(title, 14, 24);
-      doc.text('Generated: ' + time, 14, 30);
+      doc.text(title, 14, 24); doc.text('Generated: ' + time, 14, 30);
 
-      // Stats boxes
       y = 48;
       const boxW = 40, boxH = 20, gap = 8;
-      doc.setFillColor(44, 48, 80);
-      doc.roundedRect(14, y, boxW, boxH, 3, 3, 'F');
-      doc.setFontSize(16); doc.setTextColor(108, 123, 240);
-      doc.text('' + total, 34, y + 10, { align: 'center' });
-      doc.setFontSize(7); doc.setTextColor(136, 144, 181);
-      doc.text('TOTAL', 34, y + 16, { align: 'center' });
-      doc.setFillColor(26, 58, 42);
-      doc.roundedRect(14 + boxW + gap, y, boxW, boxH, 3, 3, 'F');
-      doc.setFontSize(16); doc.setTextColor(74, 222, 128);
-      doc.text('' + passCount, 14 + boxW + gap + boxW / 2, y + 10, { align: 'center' });
-      doc.setFontSize(7); doc.setTextColor(136, 144, 181);
-      doc.text('PASSED', 14 + boxW + gap + boxW / 2, y + 16, { align: 'center' });
-      doc.setFillColor(58, 26, 26);
-      doc.roundedRect(14 + (boxW + gap) * 2, y, boxW, boxH, 3, 3, 'F');
-      doc.setFontSize(16); doc.setTextColor(248, 113, 113);
-      doc.text('' + failCount, 14 + (boxW + gap) * 2 + boxW / 2, y + 10, { align: 'center' });
-      doc.setFontSize(7); doc.setTextColor(136, 144, 181);
-      doc.text('FAILED', 14 + (boxW + gap) * 2 + boxW / 2, y + 16, { align: 'center' });
+      doc.setFillColor(44, 48, 80); doc.roundedRect(14, y, boxW, boxH, 3, 3, 'F');
+      doc.setFontSize(16); doc.setTextColor(108, 123, 240); doc.text('' + total, 34, y + 10, { align: 'center' });
+      doc.setFontSize(7); doc.setTextColor(136, 144, 181); doc.text('TOTAL', 34, y + 16, { align: 'center' });
+      doc.setFillColor(26, 58, 42); doc.roundedRect(14 + boxW + gap, y, boxW, boxH, 3, 3, 'F');
+      doc.setFontSize(16); doc.setTextColor(74, 222, 128); doc.text('' + passCount, 14 + boxW + gap + boxW / 2, y + 10, { align: 'center' });
+      doc.setFontSize(7); doc.setTextColor(136, 144, 181); doc.text('PASSED', 14 + boxW + gap + boxW / 2, y + 16, { align: 'center' });
+      doc.setFillColor(58, 26, 26); doc.roundedRect(14 + (boxW + gap) * 2, y, boxW, boxH, 3, 3, 'F');
+      doc.setFontSize(16); doc.setTextColor(248, 113, 113); doc.text('' + failCount, 14 + (boxW + gap) * 2 + boxW / 2, y + 10, { align: 'center' });
+      doc.setFontSize(7); doc.setTextColor(136, 144, 181); doc.text('FAILED', 14 + (boxW + gap) * 2 + boxW / 2, y + 16, { align: 'center' });
 
-      // File-level results in PDF
       y = 78;
       const fileMap = {};
       passes.forEach(p => {
@@ -1404,85 +1544,58 @@ function downloadReportAsPDF(file) {
 
       const pdfFiles = Object.keys(fileMap).sort();
       if (pdfFiles.length > 0) {
-        doc.setFontSize(11); doc.setTextColor(212, 216, 240);
-        doc.text('File Results', 14, y);
-        y += 8;
-
+        doc.setFontSize(11); doc.setTextColor(212, 216, 240); doc.text('File Results', 14, y); y += 8;
         pdfFiles.forEach(fn => {
           const r = fileMap[fn];
           const status = r.failed > 0 ? 'FAIL' : 'PASS';
           checkPage(14);
-
-          // File row background
           doc.setFillColor(status === 'PASS' ? 26 : 58, status === 'PASS' ? 58 : 26, status === 'PASS' ? 42 : 26);
           doc.roundedRect(14, y - 4, W - 28, 10, 2, 2, 'F');
-
-          // Status badge
           doc.setFontSize(7);
           doc.setTextColor(status === 'PASS' ? 74 : 248, status === 'PASS' ? 222 : 113, status === 'PASS' ? 128 : 113);
           doc.text(status, 18, y + 1);
-
-          // File name
-          doc.setFontSize(9); doc.setTextColor(212, 216, 240);
-          doc.text(fn, 34, y + 1);
+          doc.setFontSize(9); doc.setTextColor(212, 216, 240); doc.text(fn, 34, y + 1);
           y += 10;
-
-          // Error messages if failed
           if (r.errors.length > 0) {
             r.errors.forEach(err => {
               checkPage(8);
               const errLines = doc.splitTextToSize('Error: ' + err, W - 50);
-              doc.setFontSize(6.5); doc.setTextColor(248, 160, 160);
-              doc.text(errLines, 36, y);
+              doc.setFontSize(6.5); doc.setTextColor(248, 160, 160); doc.text(errLines, 36, y);
               y += errLines.length * 4 + 2;
             });
           }
           y += 2;
         });
-      } else if (passCount > 0 || failCount > 0) {
-        doc.setFontSize(9); doc.setTextColor(136, 144, 181);
-        doc.text(passCount + ' passed, ' + failCount + ' failed (file details not available)', 14, y);
-        y += 8;
       }
 
-      // Footer
-      checkPage(12);
-      y += 6;
-      doc.setDrawColor(53, 56, 96); doc.setLineWidth(0.2);
-      doc.line(14, y, W - 14, y);
-      y += 6;
+      checkPage(12); y += 6;
+      doc.setDrawColor(53, 56, 96); doc.setLineWidth(0.2); doc.line(14, y, W - 14, y); y += 6;
       doc.setFontSize(7); doc.setTextColor(136, 144, 181);
       doc.text('Checkout E2E Test Dashboard  |  Auto-generated report', W / 2, y, { align: 'center' });
 
-      const safeName = title.replace(/[^a-zA-Z0-9_\-\.]/g, '_');
-      doc.save(safeName + '.pdf');
+      doc.save(title.replace(/[^a-zA-Z0-9_\-\.]/g, '_') + '.pdf');
       showToast('PDF downloaded: ' + title, 'success');
     })
-    .catch(err => {
-      showToast('PDF failed: ' + err.message, 'error');
-    });
+    .catch(err => { showToast('PDF failed: ' + err.message, 'error'); });
 }
 
 function openReportDetail(file) {
   const overlay = document.getElementById('reportDetailOverlay');
   const modal = document.getElementById('reportDetailModal');
-  modal.innerHTML = '<span style="color:#8890b5;">Loading report detail...</span>';
+  modal.innerHTML = '<span style="color:#8890b5;">Loading...</span>';
   overlay.classList.add('visible');
 
   fetch(SERVER + '/reports/get?file=' + encodeURIComponent(file))
     .then(r => r.json())
     .then(data => {
       const detail = data.detail || {};
-      const passes = Array.isArray(detail.passes) ? detail.passes
-                   : Array.isArray(data.passes) ? data.passes : [];
-      const failures = Array.isArray(detail.failures) ? detail.failures
-                     : Array.isArray(data.failures) ? data.failures : [];
+      const passes = Array.isArray(detail.passes) ? detail.passes : Array.isArray(data.passes) ? data.passes : [];
+      const failures = Array.isArray(detail.failures) ? detail.failures : Array.isArray(data.failures) ? data.failures : [];
       const passCount = passes.length || (typeof data.passes === 'number' ? data.passes : 0);
       const failCount = failures.length || (typeof data.failures === 'number' ? data.failures : 0);
       const title = data.label || data.file || data.name || file;
       const time = data.time || data.date || '';
 
-      // Group by file name
       const fileMap = {};
       passes.forEach(p => {
         const fp = (typeof p === 'string' ? '' : (p.file || '')).replace(/\\\\/g, '/').replace(/\\/g, '/');
@@ -1499,10 +1612,10 @@ function openReportDetail(file) {
 
       let html = `<h2>${escapeHtml(title)}</h2>
         <div class="rd-time">${escapeHtml(time)}</div>
-        <div style="display:flex;gap:14px;margin-bottom:18px;">
-          <span style="color:#4ade80;font-weight:600;font-size:1rem;">${passCount} passed</span>
-          <span style="color:#f87171;font-weight:600;font-size:1rem;">${failCount} failed</span>
-          <span style="color:#6c7bf0;font-weight:600;font-size:1rem;">${passCount + failCount} total</span>
+        <div style="display:flex;gap:12px;margin-bottom:14px;">
+          <span style="color:#4ade80;font-weight:600;">${passCount} passed</span>
+          <span style="color:#f87171;font-weight:600;">${failCount} failed</span>
+          <span style="color:#6c7bf0;font-weight:600;">${passCount + failCount} total</span>
         </div>`;
 
       const fileNames = Object.keys(fileMap).sort();
@@ -1511,32 +1624,29 @@ function openReportDetail(file) {
         fileNames.forEach(fn => {
           const r = fileMap[fn];
           html += `<li class="rd-file-item" style="flex-direction:column;align-items:flex-start;">
-            <div style="display:flex;align-items:center;gap:12px;width:100%;">
+            <div style="display:flex;align-items:center;gap:10px;width:100%;">
               <span class="badge badge-${r.status}">${r.status === 'pass' ? 'Pass' : 'Fail'}</span>
               <span class="rd-file-name">${escapeHtml(fn)}</span>
             </div>`;
-          if (r.errors.length > 0) {
-            r.errors.forEach(err => {
-              html += `<div class="rd-file-err" style="margin-left:60px;margin-top:6px;">${escapeHtml(err)}</div>`;
-            });
-          }
+          r.errors.forEach(err => {
+            html += `<div class="rd-file-err" style="margin-left:50px;margin-top:4px;">${escapeHtml(err)}</div>`;
+          });
           html += `</li>`;
         });
         html += `</ul>`;
       } else {
-        html += `<div style="color:#8890b5;padding:12px;">No file details available (${passCount} passed, ${failCount} failed)</div>`;
+        html += `<div style="color:#8890b5;padding:10px;">No file details available</div>`;
       }
 
-      html += `
-        <div style="text-align:right;margin-top:16px;display:flex;gap:10px;justify-content:flex-end;">
-          <button class="btn btn-primary" onclick="downloadReportAsPDF('${escapeHtml(file)}')">&#11015; Download PDF</button>
+      html += `<div style="text-align:right;margin-top:14px;display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn btn-primary" onclick="downloadReportAsPDF('${escapeHtml(file)}')">&#11015; PDF</button>
           <button class="btn btn-secondary" onclick="closeReportDetail()">Close</button>
         </div>`;
       modal.innerHTML = html;
     })
     .catch(err => {
       modal.innerHTML = `<span style="color:#f87171;">Error: ${escapeHtml(err.message)}</span>
-        <div style="text-align:right;margin-top:16px;">
+        <div style="text-align:right;margin-top:14px;">
           <button class="btn btn-secondary" onclick="closeReportDetail()">Close</button>
         </div>`;
     });
