@@ -240,15 +240,19 @@ function handleRun(req, res) {
     }
 
     // Spec table row:  ✓  filename.cy.js   01:22   3   3   -   -   -
-    const tblMatch = line.match(/[✓✗✘√x]\s+\S+\s+[\d]+:[\d]+\s+(\d+)\s+(\d+)\s+(\d+|-)/);
+    // Capture group 1 = filename from the row itself (not currentFile which may be stale)
+    const tblMatch = line.match(/[✓✗✘√x]\s+(\S+)\s+[\d]+:[\d]+\s+(\d+)\s+(\d+)\s+(\d+|-)/);
     if (tblMatch) {
-      const total = parseInt(tblMatch[1], 10);
-      const pass  = parseInt(tblMatch[2], 10);
-      const fail  = tblMatch[3] === '-' ? 0 : parseInt(tblMatch[3], 10);
+      const specFromLine = tblMatch[1]; // e.g. "adyen/shopify-adyen-card.cy.js"
+      const total = parseInt(tblMatch[2], 10);
+      const pass  = parseInt(tblMatch[3], 10);
+      const fail  = tblMatch[4] === '-' ? 0 : parseInt(tblMatch[4], 10);
+      // Use filename from the row if it looks like a spec file, else fall back to currentFile
+      const fileForEvent = specFromLine.includes('.cy.') ? specFromLine : currentFile;
       specTotal    += total;
       specPasses   += pass;
       specFailures += fail;
-      send({ status: 'spec-done', file: currentFile, total, pass, fail, specTotal, specPasses, specFailures });
+      send({ status: 'spec-done', file: fileForEvent, total, pass, fail, specTotal, specPasses, specFailures });
       return;
     }
 
