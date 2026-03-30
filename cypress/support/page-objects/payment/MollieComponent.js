@@ -121,14 +121,11 @@ class MollieComponent {
     cy.log('✓ Filled Mollie card details');
   }
 
-  // Selector
-  get submitButton() {
-    return cy.get('#submit-button');
-  }
-
   // Action
   submit() {
-    this.submitButton.click();
+    this.getCardIframeBody().within(() => {
+      cy.get('button[type="submit"]').contains('Pay with card').click();
+    });
     cy.wait(10000);
     cy.log('✓ Submitted Mollie payment');
   }
