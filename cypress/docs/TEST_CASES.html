@@ -1181,11 +1181,12 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
 
       if (data.status === 'spec-done') {
         specCount++;
-        const sp = data.specPasses || data.pass || 0;
-        const sf = data.specFailures || data.fail || 0;
+        const sp = data.pass || 0;       // per-spec passing count
+        const sf = data.fail || 0;       // per-spec failing count
         totalRunPassed += sp;
         totalRunFailed += sf;
-        appendLog(`  Passed: ${sp}  Failed: ${sf}  Total: ${data.specTotal || data.total || (sp + sf)}`,
+        const specName = (data.file || '').split('/').pop() || 'spec';
+        appendLog(`  ${sf > 0 ? '✘' : '✔'}  ${specName}  —  Passed: ${sp}  Failed: ${sf}`,
           sf > 0 ? 'log-fail' : 'log-pass');
         setProgress((specCount / totalSpecs) * 100);
 
@@ -1224,25 +1225,34 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
         const passes = report.passes || [];
         const failures = report.failures || [];
 
+        // Use specPasses/specFailures from server (reliable) — mochawesome arrays may be empty
+        const totalP = report.specPasses || passes.length || 0;
+        const totalF = report.specFailures || failures.length || 0;
+
         appendLog('', 'log-dim');
         appendLog('=== Run Complete ===', 'log-bold');
         appendLog(`Result: ${ok ? 'PASSED' : 'FAILED'}`, ok ? 'log-pass' : 'log-fail');
-        appendLog(`Total Passed: ${passes.length}  Failed: ${failures.length}`, '');
+        appendLog(`Total Tests: ${totalP + totalF}  Passed: ${totalP}  Failed: ${totalF}`, totalF > 0 ? 'log-fail' : 'log-pass');
 
         applyReportToFiles(passes, failures, tabId, fi, isRunAll);
 
         // Per-file summary in the live log
         appendLog('', 'log-dim');
         appendLog('── File Results ──────────────────────────────', 'log-bold');
+        let summaryCount = 0;
         TABS.forEach(tab => {
           tab.files.forEach((file, fIdx) => {
             const s = localStorage.getItem(`status:${tab.id}-f${fIdx}`) || 'notrun';
             if (s === 'notrun') return;
+            summaryCount++;
             const icon = s === 'pass' ? '✔' : '✘';
             const cls  = s === 'pass' ? 'log-pass' : 'log-fail';
             appendLog(`  ${icon}  ${file.name}  →  ${s === 'pass' ? 'PASSED' : 'FAILED'}`, cls);
           });
         });
+        if (summaryCount === 0) {
+          appendLog('  (no file results recorded)', 'log-dim');
+        }
         appendLog('──────────────────────────────────────────────', 'log-dim');
 
         if (failures.length > 0) {
