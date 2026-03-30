@@ -70,26 +70,27 @@ class MollieComponent {
     cy.log('✓ Selected Pay with invoice');
   }
 
-  // ==================== CARD FORM IFRAMES ====================
+  // ==================== CARD FORM INPUTS ====================
+  // Mollie now renders card fields as direct DOM inputs (no iframes)
 
   // Selector
-  get cardNumberIframe() {
-    return cy.get('iframe[title*="cardNumber input"]');
+  get cardNumberInput() {
+    return cy.get('input#cardNumber');
   }
 
   // Selector
-  get cardHolderIframe() {
-    return cy.get('iframe[title*="cardHolder input"]');
+  get cardHolderInput() {
+    return cy.get('input#cardHolder');
   }
 
   // Selector
-  get expiryDateIframe() {
-    return cy.get('iframe[title*="expiryDate input"]');
+  get expiryDateInput() {
+    return cy.get('input#cardExpiryDate');
   }
 
   // Selector
-  get cvcIframe() {
-    return cy.get('iframe[title*="verificationCode input"]');
+  get cvcInput() {
+    return cy.get('input#cardCvv');
   }
 
   // ==================== ACTIONS ====================
@@ -97,36 +98,28 @@ class MollieComponent {
   // Action - Fill all card details
   fillCardDetails(cardNumber, cardName, expireDate, cvc) {
     // Card Number
-    this.cardNumberIframe
-      .should('have.length', 1)
-      .then(($iframe) => {
-        const $body = $iframe.contents().find('body');
-        cy.wrap($body).find('div.input-container').type(cardNumber);
-      });
+    this.cardNumberInput
+      .should('be.visible')
+      .clear()
+      .type(cardNumber);
 
     // Card Holder Name
-    this.cardHolderIframe
-      .should('have.length', 1)
-      .then(($iframe) => {
-        const $body = $iframe.contents().find('body');
-        cy.wrap($body).find('div.input-container').type(cardName);
-      });
+    this.cardHolderInput
+      .should('be.visible')
+      .clear()
+      .type(cardName);
 
     // Expiry Date
-    this.expiryDateIframe
-      .should('have.length', 1)
-      .then(($iframe) => {
-        const $body = $iframe.contents().find('body');
-        cy.wrap($body).find('div.input-container').type(expireDate);
-      });
+    this.expiryDateInput
+      .should('be.visible')
+      .clear()
+      .type(expireDate);
 
     // CVC
-    this.cvcIframe
-      .should('have.length', 1)
-      .then(($iframe) => {
-        const $body = $iframe.contents().find('body');
-        cy.wrap($body).find('div.input-container').type(cvc);
-      });
+    this.cvcInput
+      .should('be.visible')
+      .clear()
+      .type(cvc);
 
     cy.log('✓ Filled Mollie card details');
   }
