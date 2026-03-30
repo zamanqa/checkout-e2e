@@ -5,6 +5,8 @@ node_modules/
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
+cypress/docs/run-history
+cypress/fixtures/order-result.json
 
 # Test reports
 mochawesome-report/
