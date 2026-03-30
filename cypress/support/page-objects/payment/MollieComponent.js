@@ -70,56 +70,53 @@ class MollieComponent {
     cy.log('✓ Selected Pay with invoice');
   }
 
-  // ==================== CARD FORM INPUTS ====================
-  // Mollie now renders card fields as direct DOM inputs (no iframes)
+  // ==================== CARD FORM IFRAME ====================
+  // Mollie renders all card fields inside a single iframe: title="Pay with card"
+  // The inputs inside are direct DOM elements (no nested iframes)
 
-  // Selector
-  get cardNumberInput() {
-    return cy.get('input#cardNumber');
+  // Selector - the single card iframe
+  get cardFormIframe() {
+    return cy.get('iframe[title="Pay with card"]');
   }
 
-  // Selector
-  get cardHolderInput() {
-    return cy.get('input#cardHolder');
-  }
-
-  // Selector
-  get expiryDateInput() {
-    return cy.get('input#cardExpiryDate');
-  }
-
-  // Selector
-  get cvcInput() {
-    return cy.get('input#cardCvv');
+  // Helper - returns the body inside the card iframe
+  getCardIframeBody() {
+    return this.cardFormIframe
+      .should('be.visible')
+      .its('0.contentDocument.body')
+      .should('not.be.empty')
+      .then(cy.wrap);
   }
 
   // ==================== ACTIONS ====================
 
   // Action - Fill all card details
   fillCardDetails(cardNumber, cardName, expireDate, cvc) {
-    // Card Number
-    this.cardNumberInput
-      .should('be.visible')
-      .clear()
-      .type(cardNumber);
+    this.getCardIframeBody().within(() => {
+      // Card Number
+      cy.get('input#cardNumber')
+        .should('be.visible')
+        .clear()
+        .type(cardNumber);
 
-    // Card Holder Name
-    this.cardHolderInput
-      .should('be.visible')
-      .clear()
-      .type(cardName);
+      // Expiry Date
+      cy.get('input#cardExpiryDate')
+        .should('be.visible')
+        .clear()
+        .type(expireDate);
 
-    // Expiry Date
-    this.expiryDateInput
-      .should('be.visible')
-      .clear()
-      .type(expireDate);
+      // CVC
+      cy.get('input#cardCvv')
+        .should('be.visible')
+        .clear()
+        .type(cvc);
 
-    // CVC
-    this.cvcInput
-      .should('be.visible')
-      .clear()
-      .type(cvc);
+      // Card Holder Name
+      cy.get('input#cardHolder')
+        .should('be.visible')
+        .clear()
+        .type(cardName);
+    });
 
     cy.log('✓ Filled Mollie card details');
   }
