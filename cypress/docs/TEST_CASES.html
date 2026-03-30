@@ -1191,6 +1191,7 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
 
         // Server sends `data.file` (not data.spec) — match against TABS to update status
         const specPath = (data.file || data.spec || '').replace(/\\/g, '/');
+        const thisSpecFailed = data.fail > 0; // per-spec, NOT cumulative
         if (specPath) {
           if (isRunAll) {
             TABS.forEach(tab => {
@@ -1198,13 +1199,13 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
                 const norm = file.spec.replace(/\\/g, '/');
                 if (specPath.includes(norm) || norm.includes(specPath) ||
                     specPath.endsWith(file.name) || norm.endsWith(specPath.split('/').pop())) {
-                  setFileStatus(tab.id, fIdx, sf > 0 ? 'fail' : 'pass');
+                  setFileStatus(tab.id, fIdx, thisSpecFailed ? 'fail' : 'pass');
                 }
               });
             });
           } else if (tabId !== null && fi !== null) {
             // single-file run: update immediately on spec-done
-            setFileStatus(tabId, fi, sf > 0 ? 'fail' : 'pass');
+            setFileStatus(tabId, fi, thisSpecFailed ? 'fail' : 'pass');
           }
         }
         // Always refresh header counters after every spec completes
@@ -1229,6 +1230,20 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
         appendLog(`Total Passed: ${passes.length}  Failed: ${failures.length}`, '');
 
         applyReportToFiles(passes, failures, tabId, fi, isRunAll);
+
+        // Per-file summary in the live log
+        appendLog('', 'log-dim');
+        appendLog('── File Results ──────────────────────────────', 'log-bold');
+        TABS.forEach(tab => {
+          tab.files.forEach((file, fIdx) => {
+            const s = localStorage.getItem(`status:${tab.id}-f${fIdx}`) || 'notrun';
+            if (s === 'notrun') return;
+            const icon = s === 'pass' ? '✔' : '✘';
+            const cls  = s === 'pass' ? 'log-pass' : 'log-fail';
+            appendLog(`  ${icon}  ${file.name}  →  ${s === 'pass' ? 'PASSED' : 'FAILED'}`, cls);
+          });
+        });
+        appendLog('──────────────────────────────────────────────', 'log-dim');
 
         if (failures.length > 0) {
           showErrorSummary(failures);

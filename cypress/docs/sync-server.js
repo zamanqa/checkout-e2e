@@ -218,7 +218,8 @@ function handleRun(req, res) {
   const args = ['cypress', 'run', '--browser', 'chrome'];
   if (mode === 'headed') args.push('--headed');
   args.push('--spec', spec);
-  const child = spawn('npx', args, { cwd: ROOT, shell: true });
+  const child = spawn('npx', args, { cwd: ROOT, shell: true,
+    env: { ...process.env, COLUMNS: '300', FORCE_COLOR: '0' } });
 
   // Track files & spec-table for real-time progress
   let currentFile  = '';
@@ -239,7 +240,7 @@ function handleRun(req, res) {
     }
 
     // Spec table row:  ✓  filename.cy.js   01:22   3   3   -   -   -
-    const tblMatch = line.match(/[✓✗✘√x]\s+\S+\.cy\.[jt]s\s+[\d:]+\s+(\d+)\s+(\d+)\s+(\d+|-)/);
+    const tblMatch = line.match(/[✓✗✘√x]\s+\S+\s+[\d]+:[\d]+\s+(\d+)\s+(\d+)\s+(\d+|-)/);
     if (tblMatch) {
       const total = parseInt(tblMatch[1], 10);
       const pass  = parseInt(tblMatch[2], 10);
