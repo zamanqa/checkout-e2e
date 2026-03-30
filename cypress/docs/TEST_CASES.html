@@ -1206,8 +1206,9 @@ function runWithEventSource(spec, tabId, fi, fileBtn, globalBtn, mode, isRunAll)
             // single-file run: update immediately on spec-done
             setFileStatus(tabId, fi, sf > 0 ? 'fail' : 'pass');
           }
-          updateGlobalStats();
         }
+        // Always refresh header counters after every spec completes
+        updateGlobalStats();
       }
 
       if (data.status === 'done') {
