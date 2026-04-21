@@ -39,14 +39,14 @@ class MollieComponent {
     cy.log(`✓ Entered SEPA IBAN: ${iban}`);
   }
 
-  // Selector - SEPA Select/Submit button
+  // Selector - SEPA Select button (visible "Select" button rendered by Mollie)
   get sepaSubmitButton() {
-    return cy.get("button[data-test-id='mollie-sepa-submit']");
+    return cy.contains('button', 'Select');
   }
 
   // Action - Click SEPA Select button
   clickSepaSelect() {
-    this.sepaSubmitButton.click();
+    this.sepaSubmitButton.should('be.visible').click();
     cy.log('✓ Clicked SEPA Select button');
   }
 
@@ -54,7 +54,8 @@ class MollieComponent {
   fillSepaAndSelect(iban) {
     this.enterSepaIban(iban);
     cy.wait(1000);
-    //this.clickSepaSelect();
+    this.clickSepaSelect();
+    cy.wait(2000);
   }
 
   // ==================== INVOICE PAYMENT ====================
