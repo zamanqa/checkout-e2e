@@ -59,23 +59,25 @@ class AdyenComponent {
   }
 
   // ==================== CARD FORM IFRAMES ====================
+  // Adyen securedFields renders one iframe per sensitive field.
+  // Titles confirmed from live DOM: "Card number", "Expiry date", "Security code"
 
   // Selector
   get cardNumberIframe() {
-    return cy.get('iframe[title*="Iframe for card number"]');
+    return cy.get('iframe[title="Card number"]');
   }
 
   // Selector
   get expiryDateIframe() {
-    return cy.get('iframe[title*="Iframe for expiry date"]');
+    return cy.get('iframe[title="Expiry date"]');
   }
 
   // Selector
   get cvcIframe() {
-    return cy.get('iframe[title*="Iframe for security code"]');
+    return cy.get('iframe[title="Security code"]');
   }
 
-  // Selector
+  // Selector - plain <input> outside iframes (not encrypted)
   get cardHolderNameInput() {
     return cy.get('input[name="holderName"]');
   }
