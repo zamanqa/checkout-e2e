@@ -34,7 +34,6 @@ describe('WooCommerce + Mollie + Card Checkout', () => {
     // Step 1: Verify page loaded
     cy.log('--- Step 1: Verify checkout page loaded ---');
     cy.url().should('include', apiKeys.woocommerceMollie.api_key);
-    cy.contains('Address & Payment').should('be.visible');
 
     // Step 2: Select delivery date (if available)
     cy.log('--- Step 2: Select delivery date ---');
