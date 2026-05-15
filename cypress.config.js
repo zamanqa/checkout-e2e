@@ -35,7 +35,7 @@ module.exports = defineConfig({
     // Environment variables
     env: {
       // Base URLs
-      CHECKOUT_URL: 'https://circuly-checkout-development.herokuapp.com/en/',
+      CHECKOUT_URL: 'https://checkout-development-220082022725.europe-west3.run.app/en/',
 
       // API Health Check URLs
       CHECKOUT_API_URL: 'https://checkout-api-development-680576524870.europe-west3.run.app/v1/version',
