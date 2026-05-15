@@ -34,6 +34,7 @@ describe('Shopware6 + Braintree + Card Checkout', () => {
     // Step 1: Verify page loaded
     cy.log('--- Step 1: Verify checkout page loaded ---');
     cy.url().should('include', apiKeys.shopware6Braintree.api_key);
+    cy.wait(5000); // Wait for form to fully initialise after page load
 
     // Step 2: Select delivery date (if available)
     cy.log('--- Step 2: Select delivery date ---');
